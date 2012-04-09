@@ -184,34 +184,15 @@ endif
 " Plugins                                                       {{{1
 "
 " Setting up Vundle - the vim plugin bundler
-    let iCanHazVundle=1
-    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-    if !filereadable(vundle_readme)
-        echo "Installing Vundle.."
-        echo ""
-        silent !mkdir -p ~/.vim/bundle
-        silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-        let iCanHazVundle=0
-    endif
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    Bundle 'gmarik/vundle'
-    "Add your bundles here
-    Bundle 'Syntastic' "uber awesome syntax and errors highlighter
-    Bundle 'altercation/vim-colors-solarized' "T-H-E colorscheme
-    Bundle 'https://github.com/tpope/vim-fugitive' "So awesome, it should be illegal 
-    "...All your other bundles...
-    if iCanHazVundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
-        echo ""
-        :BundleInstall
-    endif
-" Setting up Vundle - the vim plugin bundler end
-
-" Vundle                                                        {{{2
-"
-" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-" read documentation at https://github.com/gmarik/vundle#readme
+let iCanHazVundle=1
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if !filereadable(vundle_readme)
+    echo "Installing Vundle.."
+    echo ""
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+    let iCanHazVundle=0
+endif
 if has("user_commands")
   set rtp+=~/.vim/bundle/vundle/
   runtime autoload/vundle.vim " apparently without this the exists() check fails
@@ -222,42 +203,30 @@ if exists("*vundle#rc")
   "            so bundles' ftdetect scripts are loaded
   filetype off
   call vundle#rc()
-
-  " install/upgrade vundle itself (there's the obvious chicken and egg problem
-  " here); if vundle is missing, bootstrap it with
-  "   git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
   Bundle "gmarik/vundle"
-
-  " list all plugins you want to have like this:
-  "   Bundle "foo.vim" for vim.org-hosted stuff
-  "   Bundle "owner/project" for github-hosted stuff
-  "   Bundle "git://git.wincent.com/command-t.git" for arbitrary URLs
-  " install ones that are missing with :BundleInstall
-  " install/upgrade them all with :BundleInstall!
-  " search for new ones with :BundleSearch keyword
-  " bundles are kept in ~/.vim/bundle/
-
+  Bundle "scrooloose/syntastic"
+  Bundle "fugitive.vim"
   Bundle "git://git.wincent.com/command-t.git"
   " NB: Bundle doesn't install command-t completely automatically; you have
   " to manually do this:
   "   cd ~/.vim/bundle/command-t/ruby/command-t/ && ruby extconf.rb && make
   " you might also need some packages installed, like build-essential and
   " ruby1.8-dev
-
-  Bundle "scrooloose/syntastic"
   Bundle "Gundo"
   Bundle "fugitive.vim"
-
-  " Evaluating this now, so far not convinced I want it:
-  Bundle "paradigm/paramenu"
-
   " Pathogen for solarized
   Bundle "Solarized"
-  set background="light"
-  let g:solarized_style="light"
-  colorscheme solarized
   Bundle "alfredodeza/coveragepy.vim"
+  if iCanHazVundle == 0
+      echo "Installing Bundles, please ignore key map error messages"
+      echo ""
+      :BundleInstall
+  endif
 endif
+
+set background="light"
+let g:solarized_style="light"
+colorscheme solarized
 
 " Filetype plugins                                              {{{2
 if v:version >= 600
@@ -1450,7 +1419,7 @@ endif
 " change the Gtk+ theme (between ones with white background and ones with dark
 " background).
 if !exists('colors_name')
-  colorscheme whitetango
+  "colorscheme desert
   "colorscheme darklooks
 endif
 
