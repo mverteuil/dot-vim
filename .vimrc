@@ -2,6 +2,8 @@
 " Based on version by: Marius Gedminas <marius@gedmin.as>
 " for VIM version 6 or later
 "
+" You will need to install exuberant-ctags from APT
+"
 
 "
 " Options                                                       {{{1
