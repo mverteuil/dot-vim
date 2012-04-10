@@ -585,16 +585,16 @@ map!            <C-S-Left>      <C-O><C-W><Left>
 map!            <C-S-Right>     <C-O><C-W><Right>
 
 " Switching tabs with Ctrl+Tab/etc in gvim                      {{{2
-nmap            <C-S-tab>       :tabprevious<cr>
-nmap            <C-tab>         :tabnext<cr>
-nmap            <C-t>           :tabnew<cr>
-map             <C-t>           :tabnew<cr>
-map             <C-S-tab>       :tabprevious<cr>
-map             <C-tab>         :tabnext<cr>
-map             <C-x>           :tabclose<cr>
-imap            <C-S-tab>       <ESC>:tabprevious<cr>i
-imap            <C-tab>         <ESC>:tabnext<cr>i
-imap            <C-t>           <ESC>:tabnew<cr>
+nnoremap            <F11>           :tabprevious<cr>
+nnoremap            <F12>           :tabnext<cr>
+nnoremap            <C-t>           :tabnew<cr>
+noremap             <C-t>           :tabnew<cr>
+noremap             <F11>           :tabprevious<cr>
+noremap             <F12>           :tabnext<cr>
+noremap             <C-x>           :tabclose<cr>
+inoremap            <F11>           <ESC>:tabprevious<cr>i
+inoremap            <F12>           <ESC>:tabnext<cr>i
+inoremap            <C-t>           <ESC>:tabnew<cr>
 
 " Emacs style command line                                      {{{2
 cnoremap        <C-G>           <C-C>
@@ -688,11 +688,11 @@ imap            <F9>    <C-O><F9>
 set pastetoggle=<F11>
 
 " <F12> = show the Unicode name of the character under cursor
-map             <F12>           :UnicodeName<CR>
+"map             <F12>           :UnicodeName<CR>
 " <S-F12> = show highlight group under cursor
-map             <S-F12>         :ShowHighlightGroup<CR>
+"map             <S-F12>         :ShowHighlightGroup<CR>
 " <C-F12> = show syntax stack under cursor
-map             <C-F12>         :ShowSyntaxStack<CR>
+"map             <C-F12>         :ShowSyntaxStack<CR>
 
 "
 " Keyboard workarounds                                          {{{1
