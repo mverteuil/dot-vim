@@ -209,20 +209,15 @@ if exists("*vundle#rc")
   Bundle "scrooloose/syntastic"
   Bundle "fugitive.vim"
   Bundle "git://git.wincent.com/command-t.git"
-  " NB: Bundle doesn't install command-t completely automatically; you have
-  " to manually do this:
-  "   cd ~/.vim/bundle/command-t/ruby/command-t/ && ruby extconf.rb && make
-  " you might also need some packages installed, like build-essential and
-  " ruby1.8-dev
   Bundle "Gundo"
   Bundle "fugitive.vim"
-  " Pathogen for solarized
   Bundle "Solarized"
   Bundle "alfredodeza/coveragepy.vim"
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
       :BundleInstall
+      !cd ~/.vim/bundle/command-t/ruby/command-t/ && ruby extconf.rb && make
   endif
 endif
 
