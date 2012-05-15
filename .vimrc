@@ -43,7 +43,15 @@ if v:version >= 703
 endif
 
 " Fonts
-set gfn=LetterGothicLineMonospace:h14
+
+if has("gui_gtk2")
+    set guifont=Letter\ Gothic\ Line\ 11
+elseif has("gui_macvim")
+    set guifont=LetterGothicLineMonospace:h14
+elseif has("gui_win32")
+    set guifont=LetterGothicLineMonospace:h14
+endif
+
 set linespace=5
 
 " Silence                                                       {{{2
