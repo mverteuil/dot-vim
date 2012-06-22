@@ -595,10 +595,8 @@ nnoremap            <F12>           :TagbarOpen<cr>
 nnoremap            <C-t>           :tabnew<cr>
 noremap             <C-t>           :tabnew<cr>
 noremap             <F11>           :tabprevious<cr>
-noremap             <F12>           :tabnext<cr>
+noremap             <F12>           :TagbarOpen<cr>
 noremap             <C-x>           :tabclose<cr>
-inoremap            <F11>           <ESC>:tabprevious<cr>i
-inoremap            <F12>           <ESC>:tabnext<cr>i
 inoremap            <C-t>           <ESC>:tabnew<cr>
 
 " Emacs style command line                                      {{{2
