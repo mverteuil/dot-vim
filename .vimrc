@@ -221,6 +221,8 @@ if exists("*vundle#rc")
   Bundle "fugitive.vim"
   Bundle "Solarized"
   Bundle "alfredodeza/coveragepy.vim"
+  Bundle "spiiph/vim-space"
+  Bundle "majutsushi/tagbar"
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
@@ -589,7 +591,7 @@ map!            <C-S-Right>     <C-O><C-W><Right>
 
 " Switching tabs with Ctrl+Tab/etc in gvim                      {{{2
 nnoremap            <F11>           :tabprevious<cr>
-nnoremap            <F12>           :tabnext<cr>
+nnoremap            <F12>           :TagbarOpen<cr>
 nnoremap            <C-t>           :tabnew<cr>
 noremap             <C-t>           :tabnew<cr>
 noremap             <F11>           :tabprevious<cr>
@@ -1478,3 +1480,6 @@ if !exists("did_install_mg_menus") && has("gui")
   tmenu         ToolBar.ToggleHdr       Switch between source and header (C/C++), or code and test (Python)
 endif
 
+
+" TagBar configuration
+let g:tagbar_iconchars = ['▾', '▸']
