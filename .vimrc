@@ -223,6 +223,7 @@ if exists("*vundle#rc")
   Bundle "alfredodeza/coveragepy.vim"
   Bundle "spiiph/vim-space"
   Bundle "majutsushi/tagbar"
+  Bundle "pytest.vim"
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
