@@ -223,6 +223,8 @@ if exists("*vundle#rc")
   Bundle "alfredodeza/coveragepy.vim"
   Bundle "spiiph/vim-space"
   Bundle "majutsushi/tagbar"
+  Bundle "Conque-Shell"
+  Bundle "pytest.vim"
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
@@ -297,9 +299,16 @@ if has("eval")
   endif
 endif
 
-" py-test-runner.vim                                            {{{2
-
-map             ,t              :CopyTestUnderCursor<cr>
+" Pytest keys
+map             <Leader>k              :Pytest method<CR>
+map             <Leader>K              :Pytest method -s<CR>
+map             <Leader>l              :Pytest file<CR>
+map             <Leader>L              :Pytest file -s<CR>
+map             <Leader>;              :Pytest module<CR>
+map             <Leader>:              :Pytest module -s<CR>
+map             <Leader>c              <ESC>:q<CR>
+imap             <Leader>c              <ESC>:q<CR>
+nmap             <Leader>c              <ESC>:q<CR>
 
 if has("user_commands")
   " :Co now expands to :CommandT, but I'm used to type it as a shortcut for
@@ -590,11 +599,11 @@ map!            <C-S-Left>      <C-O><C-W><Left>
 map!            <C-S-Right>     <C-O><C-W><Right>
 
 " Switching tabs with Ctrl+Tab/etc in gvim                      {{{2
-nnoremap            <F11>           :tabprevious<cr>
+nnoremap            <F11>           :Pytest file -s<cr>
 nnoremap            <F12>           :TagbarOpen<cr>
 nnoremap            <C-t>           :tabnew<cr>
 noremap             <C-t>           :tabnew<cr>
-noremap             <F11>           :tabprevious<cr>
+noremap             <F11>           :Pytest file -s<cr>
 noremap             <F12>           :TagbarOpen<cr>
 noremap             <C-x>           :tabclose<cr>
 inoremap            <C-t>           <ESC>:tabnew<cr>
