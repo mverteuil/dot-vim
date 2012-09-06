@@ -1474,6 +1474,10 @@ highlight User2                 gui=NONE guifg=magenta guibg=black
 highlight Red                   guibg=red ctermbg=red
 highlight Green                 guibg=green ctermbg=green
 
+highlight Search                guifg=white guibg=black gui=NONE
+highlight IncSearch             guifg=white guibg=darkseagreen gui=underline
+highlight IncSearch             ctermfg=white ctermbg=red cterm=underline
+highlight IncSearch             term=underline
 "
 " Toolbar buttons                                               {{{1
 "
