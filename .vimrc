@@ -225,6 +225,9 @@ if exists("*vundle#rc")
   Bundle "majutsushi/tagbar"
   Bundle "Conque-Shell"
   Bundle "pytest.vim"
+  Bundle "Conque-Shell"
+  Bundle "nvie/vim-flake8"
+  Bundle "python-imports.vim"
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
@@ -1184,8 +1187,9 @@ function! FT_Python()
     syn sync minlines=100
 
     match Error /\%>79v.\+/
-    map <buffer> <F5>    :ImportName <C-R><C-W><CR>
-    map <buffer> <C-F5>  :ImportNameHere <C-R><C-W><CR>
+    map <buffer> <S-F5> :call Flake8()<CR>
+    map <buffer> <F5>    :call Pyflakes()<CR>
+    map <buffer> <C-F5>  :Pytest file<CR>
     imap <buffer> <F5>   <C-O><F5>
     imap <buffer> <C-F5> <C-O><C-F5>
     map <buffer> <C-F6>  :SwitchCodeAndTest<CR>
