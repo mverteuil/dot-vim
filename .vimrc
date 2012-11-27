@@ -1195,8 +1195,8 @@ function! FT_Python()
     syn sync minlines=100
 
     match Error /\%>111v.\+/
-    map <buffer> <S-F5> :call Flake8()<CR>
-    map <buffer> <F5>    :call Pyflakes()<CR>
+    map <buffer> <F5> :call Flake8()<CR>
+    map <buffer> <S-F5>    :call Pyflakes()<CR>
     map <buffer> <C-F5>  :Pytest file<CR>
     imap <buffer> <F5>   <C-O><F5>
     imap <buffer> <C-F5> <C-O><C-F5>
