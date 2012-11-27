@@ -20,6 +20,7 @@ set ruler                       " show cursor position in status line
 set list                        " show tabs and spaces at end of line:
 set listchars=tab:>-,trail:.,extends:>
 set number
+set textwidth=110
 if has("linebreak")
   let &sbr = nr2char(8618).' '  " Show ↪ at the beginning of wrapped lines
 endif
@@ -28,12 +29,13 @@ if has("extra_search")
   nohlsearch                    " but not initially
 endif
 
+
 if v:version >= 600
   set listchars+=precedes:<
 endif
 
 if v:version >= 703
-  set colorcolumn=81            " highlight column 81
+  set colorcolumn=111           " highlight column 111
 """  if exists('colorcolumn_hack')
 """    " just playing around; this is not actually a good idea (also, slow)
 """    for col in range(82, 200)
@@ -225,6 +227,7 @@ if exists("*vundle#rc")
   Bundle "majutsushi/tagbar"
   Bundle "Conque-Shell"
   Bundle "pytest.vim"
+  Bundle 'Rykka/riv.vim'
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
@@ -306,10 +309,14 @@ map             <Leader>l              :Pytest file<CR>
 map             <Leader>L              :Pytest file -s<CR>
 map             <Leader>;              :Pytest module<CR>
 map             <Leader>:              :Pytest module -s<CR>
-map             <Leader>c              <ESC>:q<CR>
+map             <Leader>cr              :Coveragepy report<CR>
+map             <Leader>cs              :Coveragepy show<CR>
+
 imap             <Leader>c              <ESC>:q<CR>
 nmap             <Leader>c              <ESC>:q<CR>
 
+map             <Leader>Cr              :Coveragepy report<CR>
+map             <Leader>Cs              :Coveragepy show<CR>
 if has("user_commands")
   " :Co now expands to :CommandT, but I'm used to type it as a shortcut for
   " :CopyTestUnderCursor
@@ -346,7 +353,7 @@ endif
 " make it not clobber 's' in visual mode
 vmap <Leader>s <Plug>Vsurround
 vmap <Leader>S <Plug>VSurround
- 
+
 " NERD_tree.vim                                                 {{{2
 if v:version >= 700 && has("eval")
   let g:NERDTreeIgnore= ['\.pyc$', '\~$']
@@ -585,6 +592,7 @@ imap            <S-Up>          <C-O><S-Up>
 imap            <S-Down>        <C-O><S-Down>
 
 " Navigating around windows
+map             <C-W><C-W>      :q<cr>
 map             <C-W><C-Up>     <C-W><Up>
 map             <C-W><C-Down>   <C-W><Down>
 map             <C-W><C-Left>   <C-W><Left>
@@ -1159,7 +1167,7 @@ function! FT_Python()
   if v:version >= 600
     setlocal formatoptions=croql
     setlocal shiftwidth=4
-    setlocal softtabstop=4 
+    setlocal softtabstop=4
     setlocal expandtab
     setlocal indentkeys-=<:>
     setlocal indentkeys-=:
@@ -1183,7 +1191,7 @@ function! FT_Python()
 
     syn sync minlines=100
 
-    match Error /\%>79v.\+/
+    match Error /\%>111.\+/
     map <buffer> <F5>    :ImportName <C-R><C-W><CR>
     map <buffer> <C-F5>  :ImportNameHere <C-R><C-W><CR>
     imap <buffer> <F5>   <C-O><F5>
@@ -1478,6 +1486,7 @@ highlight Search                guifg=white guibg=black gui=NONE
 highlight IncSearch             guifg=white guibg=darkseagreen gui=underline
 highlight IncSearch             ctermfg=white ctermbg=red cterm=underline
 highlight IncSearch             term=underline
+
 "
 " Toolbar buttons                                               {{{1
 "
