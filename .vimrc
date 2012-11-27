@@ -1507,3 +1507,7 @@ endif
 
 " TagBar configuration
 let g:tagbar_iconchars = ['▾', '▸']
+
+" Flake8 Configuration
+let g:flake8_max_line_length=109
+let g:flake8_max_complexity=10
