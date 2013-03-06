@@ -292,19 +292,6 @@ if has("eval")
   let python_slow_sync = 1
 endif
 
-" python_check_syntax.vim                                       {{{2
-if has("eval")
-  " mnemonic: py[f]lakes (the default \cs is taken by VCSStatus)
-  let g:pcs_hotkey = '<LocalLeader>f'
-  let g:pcs_check_when_saving = 0  " I use syntastic now
-
-  if has("user_commands")
-    command! EnablePyflakesOnSave   let g:pcs_check_when_saving = 1
-    command! DisablePyflakesOnSave  exec 'py quickfix.maybeclose()'
-                                     \| let g:pcs_check_when_saving = 0
-  endif
-endif
-
 " Pytest keys
 map             <Leader>k              :Pytest method<CR>
 map             <Leader>K              :Pytest method -s<CR>
@@ -616,7 +603,6 @@ nnoremap            <C-t>           :tabnew<cr>
 noremap             <C-t>           :tabnew<cr>
 noremap             <F11>           :Pytest file -s<cr>
 noremap             <F12>           :TagbarOpen<cr>
-noremap             <C-x>           :tabclose<cr>
 inoremap            <C-t>           <ESC>:tabnew<cr>
 
 " Emacs style command line                                      {{{2
@@ -1215,35 +1201,6 @@ function! FT_Python()
   abbr improt import
 endf
 
-function! FT_Python_Ivija()
-""map <F9> :wall<bar>silent! !touch test-stamp<cr><c-l>
-  python << END
-import sys, os
-pyflakes_path = os.path.expanduser('~/src/ivija/pyflakes-mg/')
-if pyflakes_path not in sys.path:
-    sys.path.insert(0, pyflakes_path)
-    modules_to_nuke = [m for m in sys.modules if m.startswith('pyflakes')]
-    for m in modules_to_nuke:
-        del sys.modules[m]
-END
-  runtime plugin/python_check_syntax.vim  " reload with new pyflakes version
-  " XXX this means after editing one ivija file we're permanently on ivija's
-  " pyflakes :/
-
-  " Note: cannot use xdg-open: it invokes gvfs-open which does nothing
-  " when run from gvim (works fine from an xterm, though).
-  " gnome-open also fails in the same way!?!
-  " XXX: there's no error handling! what if % is not in version control?
-  " what if I'm looking at a branch?  what if my checkout is older?
-  command! TracAnnotate
-    \ exec 'silent !chromium-browser https://ivija.pov.lt/trac/browser/trunk/'
-    \ . substitute(expand('%:p'), '^' . expand('~/src/ivija/'), '', '')
-    \ . '?annotate=blame\#L' . line('.')
-  setlocal wildignore+=docs/src/** " make command-t ignore the duplicated subtree
-  setlocal wildignore+=reportgen-output/**
-  let g:pyTestRunnerClipboardExtras = '-vc'
-endf
-
 augroup Python_prog
   autocmd!
   autocmd FileType python       call FT_Python()
@@ -1511,3 +1468,4 @@ let g:tagbar_iconchars = ['▾', '▸']
 " Flake8 Configuration
 let g:flake8_max_line_length=110
 let g:flake8_max_complexity=10
+autocmd BufWritePost *.py call Flake8()
