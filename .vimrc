@@ -231,6 +231,8 @@ if exists("*vundle#rc")
   Bundle "Conque-Shell"
   Bundle "nvie/vim-flake8"
   Bundle "python-imports.vim"
+  Bundle "reinh/vim-makegreen"
+
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
       echo ""
@@ -343,6 +345,14 @@ endif
 " make it not clobber 's' in visual mode
 vmap <Leader>s <Plug>Vsurround
 vmap <Leader>S <Plug>VSurround
+let b:surround_{char2nr("v")} = "{{ \r }}"
+let b:surround_{char2nr("{")} = "{{ \r }}"
+let b:surround_{char2nr("%")} = "{% \r %}"
+let b:surround_{char2nr("b")} = "{% block \1block name: \1 %}\r{% endblock \1\1 %}"
+let b:surround_{char2nr("i")} = "{% if \1condition: \1 %}\r{% endif %}"
+let b:surround_{char2nr("w")} = "{% with \1with: \1 %}\r{% endwith %}"
+let b:surround_{char2nr("f")} = "{% for \1for loop: \1 %}\r{% endfor %}"
+let b:surround_{char2nr("c")} = "{% comment %}\r{% endcomment %}"
 
 " NERD_tree.vim                                                 {{{2
 if v:version >= 700 && has("eval")
@@ -702,6 +712,49 @@ set pastetoggle=<F11>
 "map             <S-F12>         :ShowHighlightGroup<CR>
 " <C-F12> = show syntax stack under cursor
 "map             <C-F12>         :ShowSyntaxStack<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"
+" Useful Django keymappings
+"
+let g:last_relative_dir = ''
+nnoremap <Leader>1 :call RelatedFile ("models.py")<cr>
+nnoremap <Leader>2 :call RelatedFile ("views.py")<cr>
+nnoremap <Leader>3 :call RelatedFile ("urls.py")<cr>
+nnoremap <Leader>4 :call RelatedFile ("admin.py")<cr>
+nnoremap <Leader>5 :call RelatedFile ("tests.py")<cr>
+nnoremap <Leader>6 :call RelatedFile ( "templates/" )<cr>
+nnoremap <Leader>7 :call RelatedFile ( "templatetags/" )<cr>
+nnoremap <Leader>8 :call RelatedFile ( "management/" )<cr>
+nnoremap <Leader>0 :e settings.py<cr>
+nnoremap <Leader>9 :e urls.py<cr>
+
+fun! RelatedFile(file)
+    " This is to check that the directory looks djangoish
+    if filereadable(expand("%:h"). '/models.py') || isdirectory(expand("%:h") . "/templatetags/")
+        exec "edit %:h/" . a:file
+        let g:last_relative_dir = expand("%:h") . '/'
+        return ''
+    endif
+    if g:last_relative_dir != ''
+        exec "edit " . g:last_relative_dir . a:file
+        return ''
+    endif
+    echo "Cant determine where relative file is : " . a:file
+    return ''
+endfun
+
+fun SetAppDir()
+    if filereadable(expand("%:h"). '/models.py') || isdirectory(expand("%:h") . "/templatetags/")
+        let g:last_relative_dir = expand("%:h") . '/'
+        return ''
+    endif
+endfun
+autocmd BufEnter *.py call SetAppDir()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 "
 " Keyboard workarounds                                          {{{1
