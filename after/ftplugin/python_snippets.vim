@@ -200,5 +200,3 @@ exec "Snippet unittest if __name__ == '__main__':
 \<CR>
 \<CR>def runTest(self):
 \<CR>".st.et
-
-exec "Snippet dbug import ipdb;ipdb.set_trace()<CR>"

@@ -232,6 +232,8 @@ if exists("*vundle#rc")
   Bundle "nvie/vim-flake8"
   Bundle "python-imports.vim"
   Bundle "reinh/vim-makegreen"
+  Bundle "rainerborene/vim-pony"
+  Bundle "snipMate"
 
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
@@ -1261,6 +1263,8 @@ augroup Python_prog
   autocmd BufRead,BufNewFile *  if expand('%:p') =~ 'schooltool' | let g:pyTestRunnerClipboardExtras='-pvc1' | let g:pyTestRunnerDirectoryFiltering = '' | let g:pyTestRunnerModuleFiltering = '' | endif
   autocmd BufRead,BufNewFile *  if expand('%:p') =~ 'cipher' | let g:pyTestRunnerClipboardExtras='-c' | endif
   autocmd BufRead,BufNewFile /var/lib/buildbot/masters/*/*.cfg  setlocal tags=/root/buildbot.tags
+  autocmd FileType python set ft=python.django " For SnipMate
+  autocmd FileType html set ft=htmldjango.html " For SnipMate
 augroup END
 
 
