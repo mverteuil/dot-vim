@@ -234,6 +234,8 @@ if exists("*vundle#rc")
   Bundle "reinh/vim-makegreen"
   Bundle "rainerborene/vim-pony"
   Bundle "snipMate"
+  Bundle "abolish.vim"
+  Bundle "nelstrom/vim-visual-star-search"
 
   if iCanHazVundle == 0
       echo "Installing Bundles, please ignore key map error messages"
