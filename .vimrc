@@ -220,7 +220,6 @@ if exists("*vundle#rc")
   Bundle "fugitive.vim"
   Bundle "git://git.wincent.com/command-t.git"
   Bundle "Gundo"
-  Bundle "fugitive.vim"
   Bundle "Solarized"
   Bundle "alfredodeza/coveragepy.vim"
   Bundle "spiiph/vim-space"
@@ -228,7 +227,6 @@ if exists("*vundle#rc")
   Bundle "Conque-Shell"
   Bundle "pytest.vim"
   Bundle 'Rykka/riv.vim'
-  Bundle "Conque-Shell"
   Bundle "nvie/vim-flake8"
   Bundle "python-imports.vim"
   Bundle "reinh/vim-makegreen"
