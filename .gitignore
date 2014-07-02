@@ -1,4 +1,5 @@
-*.sw[onp]
 *.DS_Store
 *.pyc
+*.sw[onp]
+.netrwhist
 bundle/*
