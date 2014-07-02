@@ -44,7 +44,7 @@ set history=1000
 " Ctrl-W in command-line stops at /
 set iskeyword-=/                
 " Share clipboard with system
-set clipboard^=unnamedplus
+set clipboard^=unnamed,unnamedplus
 
 " No swap files
 set nobackup
