@@ -87,6 +87,7 @@ if exists("*vundle#rc")
   Bundle 'kien/ctrlp.vim'
   Bundle 'nathanaelkane/vim-indent-guides'
   Bundle 'scrooloose/syntastic'
+  Bundle 'bkad/CamelCaseMotion'
 
   if needs_vundle == 0
       echo "Installing Bundles..."
