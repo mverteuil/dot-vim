@@ -187,3 +187,11 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
 
 
+""" Python File Helpers ----------------------------------------------------------------------------
+
+" Destroy EOL whitespace in python files
+autocmd BufWrite *.py :silent! %s/\s\+$//
+" Expand 'ppdb' to a pdb set trace
+autocmd BufEnter *.py :iabbr ppdb import pdb;pdb.set_trace()
+" Remove pdb expansion in non-python files
+autocmd BufLeave *.py :unabbr ppdb
