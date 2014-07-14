@@ -78,16 +78,25 @@ endif
 if exists("*vundle#rc")
   filetype off
   call vundle#rc()
-  Bundle "gmarik/vundle"                            " Bundles for vim
+  " Bundles for vim
+  Bundle "gmarik/vundle"                           
 
-  Bundle "Solarized"                                " Colours for people who like pretty things
-  Bundle "abolish.vim"                              " Substitutions and search for kings
-  Bundle "nelstrom/vim-visual-star-search"          " Search for selected text with '*'
-  Bundle "nvie/vim-flake8"                          " Flake8 linting for Python
-  Bundle 'bkad/CamelCaseMotion'                     " Move through named variables easier
-  Bundle 'kien/ctrlp.vim'                           " Search for files and buffers
-  Bundle 'nathanaelkane/vim-indent-guides'          " Visualized indentation guide lines
-  Bundle 'scrooloose/syntastic'                     " Syntax highlighting for winners
+  " Colours for people who like pretty things
+  Bundle "Solarized"                                
+  " Substitutions and search for kings
+  Bundle "abolish.vim"                              
+  " Search for selected text with '*'
+  Bundle "nelstrom/vim-visual-star-search"        
+  " Flake8 linting for Python
+  Bundle "nvie/vim-flake8"                        
+  " Move through named variables easier
+  Bundle 'bkad/CamelCaseMotion'                   
+  " Search for files and buffers
+  Bundle 'kien/ctrlp.vim'                         
+  " Visualized indentation guide lines
+  Bundle 'nathanaelkane/vim-indent-guides'        
+  " Syntax highlighting for winners
+  Bundle 'scrooloose/syntastic'                   
 
   if needs_vundle == 0
       echo "Installing Bundles..."
