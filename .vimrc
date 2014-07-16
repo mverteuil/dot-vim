@@ -28,6 +28,8 @@ set scrolloff=2
 set nostartofline               
 " No GUI
 set guioptions=a
+" Persist status bar in command mode
+set laststatus=2
 
 " Highlight matches
 set hlsearch
@@ -78,29 +80,31 @@ endif
 if exists("*vundle#rc")
   filetype off
   call vundle#rc()
-  " Bundles for vim
-  Bundle "gmarik/vundle"                           
+  " Plugins for vim
+  Plugin 'gmarik/vundle'                           
 
   " Colours for people who like pretty things
-  Bundle "Solarized"                                
+  Plugin 'chriskempson/base16-vim'
   " Substitutions and search for kings
-  Bundle "abolish.vim"                              
+  Plugin 'abolish.vim'                              
   " Search for selected text with '*'
-  Bundle "nelstrom/vim-visual-star-search"        
+  Plugin 'nelstrom/vim-visual-star-search'        
   " Flake8 linting for Python
-  Bundle "nvie/vim-flake8"                        
+  Plugin 'nvie/vim-flake8'                        
   " Move through named variables easier
-  Bundle 'bkad/CamelCaseMotion'                   
+  Plugin 'bkad/CamelCaseMotion'                   
   " Search for files and buffers
-  Bundle 'kien/ctrlp.vim'                         
+  Plugin 'kien/ctrlp.vim'                         
   " Visualized indentation guide lines
-  Bundle 'nathanaelkane/vim-indent-guides'        
+  Plugin 'nathanaelkane/vim-indent-guides'        
   " Syntax highlighting for winners
-  Bundle 'scrooloose/syntastic'                   
+  Plugin 'scrooloose/syntastic'                   
+  " Awesome status bar for cool people
+  Plugin 'bling/vim-airline'
 
   if needs_vundle == 0
-      echo "Installing Bundles..."
-      :BundleInstall
+      echo "Installing Plugins..."
+      :PluginInstall
   endif
 endif
 
@@ -109,37 +113,22 @@ endif
 
 " Enable syntax highlighting
 syntax on
-" Use light-coloured background with gui
-if has("gui_running")
-    set background="light"
-    let g:solarized_style="light"
-" Use dark-coloured background with terminals
-else
-    set background="dark"
-    let g:solarized_style="dark"
-endif
-" Use solarized colors
-colorscheme solarized
-
-
-" Status line with git and current path
-if has('statusline')
-    set laststatus=2
-    set statusline+=\ %{getcwd()}/%f        	"current dir/file
-    set statusline+=%-10.(%l,%c%V%) 		" - line,column[-virtual column]
-endif
+" Use dark background always
+set background=dark
+" Use Base16's Mocha
+colorscheme base16-mocha
 
 
 " Fonts
 if has("gui_gtk2")
-    set guifont=Letter\ Gothic\ Line\ 11
-    set linespace=5
+    set guifont="Menlo for Powerline" 11
+    set linespace=2
 elseif has("gui_macvim")
-    set guifont=LetterGothicLineMonospace:h14
-    set linespace=5
+    set guifont="Menlo for Powerline":h11
+    set linespace=2
 elseif has("gui_win32")
-    set guifont=LetterGothicLineMonospace:h14
-    set linespace=5
+    set guifont="Menlo for Powerline":h11
+    set linespace=2
 endif
 
 """ NERDTree-style Netrw ---------------------------------------------------------------------------
@@ -204,3 +193,18 @@ autocmd BufWrite *.py :silent! %s/\s\+$//
 autocmd BufEnter *.py :iabbr ppdb import pdb;pdb.set_trace()
 " Remove pdb expansion in non-python files
 autocmd BufLeave *.py :unabbr ppdb
+
+
+""" Airline ----------------------------------------------------------------------------------------
+let g:airline_theme             = 'lucius'
+let g:airline_enable_branch     = 1
+let g:airline_enable_syntastic  = 1
+
+" vim-powerline symbols
+let g:airline_left_sep          = '⮀'
+let g:airline_left_alt_sep      = '⮁'
+let g:airline_right_sep         = '⮂'
+let g:airline_right_alt_sep     = '⮃'
+let g:airline_branch_prefix     = '⭠'
+let g:airline_readonly_symbol   = '⭤'
+let g:airline_linecolumn_prefix = '⭡'
