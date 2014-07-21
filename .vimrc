@@ -108,8 +108,8 @@ if exists("*vundle#rc")
   endif
 endif
 
-""" Style configuration ----------------------------------------------------------------------------
 
+""" Style configuration ----------------------------------------------------------------------------
 
 " Enable syntax highlighting
 syntax on
@@ -130,6 +130,7 @@ elseif has("gui_win32")
     set guifont="Menlo for Powerline":h11
     set linespace=2
 endif
+
 
 """ NERDTree-style Netrw ---------------------------------------------------------------------------
 
@@ -175,11 +176,14 @@ let g:ctrlp_follow_symlinks = 1
 
 
 """ Syntastic --------------------------------------------------------------------------------------
+
 let g:syntastic_python_checkers = ['flake8', 'python', ]
 let g:syntastic_python_flake8_args = '--ignore=E501'
 let g:syntastic_aggregate_errors = 1
 
+
 """ Vim-Indent-Guides ------------------------------------------------------------------------------
+
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
