@@ -23,9 +23,9 @@ set textwidth=110
 " Backspace eats things correctly
 set backspace=indent,eol,start
 " Always keep cursor 2 lines from screen edge
-set scrolloff=2                 
+set scrolloff=2
 " Don't jump to start of line when moving around
-set nostartofline               
+set nostartofline
 " No GUI
 set guioptions=a
 " Persist status bar in command mode
@@ -42,9 +42,9 @@ set smartcase
 set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc
 set wildignore+=tiny_mce,media,.sass-cache
 " A thousand remembered commands
-set history=1000                
+set history=1000
 " Ctrl-W in command-line stops at /
-set iskeyword-=/                
+set iskeyword-=/
 " Share clipboard with system
 set clipboard^=unnamed,unnamedplus
 
@@ -74,38 +74,40 @@ if !filereadable(vundle_readme)
     let needs_vundle = 0
 endif
 if has("user_commands")
-  set rtp+=~/.vim/bundle/vundle/
-  runtime autoload/vundle.vim
+    set rtp+=~/.vim/bundle/vundle/
+    runtime autoload/vundle.vim
 endif
 if exists("*vundle#rc")
-  filetype off
-  call vundle#rc()
-  " Plugins for vim
-  Plugin 'gmarik/vundle'                           
+    filetype off
+    call vundle#rc()
+    " Plugins for vim
+    Plugin 'gmarik/vundle'
 
-  " Colours for people who like pretty things
-  Plugin 'chriskempson/base16-vim'
-  " Substitutions and search for kings
-  Plugin 'abolish.vim'                              
-  " Search for selected text with '*'
-  Plugin 'nelstrom/vim-visual-star-search'        
-  " Flake8 linting for Python
-  Plugin 'nvie/vim-flake8'                        
-  " Move through named variables easier
-  Plugin 'bkad/CamelCaseMotion'                   
-  " Search for files and buffers
-  Plugin 'kien/ctrlp.vim'                         
-  " Visualized indentation guide lines
-  Plugin 'nathanaelkane/vim-indent-guides'        
-  " Syntax highlighting for winners
-  Plugin 'scrooloose/syntastic'                   
-  " Awesome status bar for cool people
-  Plugin 'bling/vim-airline'
+    " Colours for people who like pretty things
+    Plugin 'chriskempson/base16-vim'
+    " Substitutions and search for kings
+    Plugin 'abolish.vim'
+    " Search for selected text with '*'
+    Plugin 'nelstrom/vim-visual-star-search'
+    " Flake8 linting for Python
+    Plugin 'nvie/vim-flake8'
+    " Move through named variables easier
+    Plugin 'bkad/CamelCaseMotion'
+    " Search for files and buffers
+    Plugin 'kien/ctrlp.vim'
+    " Visualized indentation guide lines
+    Plugin 'nathanaelkane/vim-indent-guides'
+    " Syntax highlighting for winners
+    Plugin 'scrooloose/syntastic'
+    " Awesome status bar for cool people
+    Plugin 'bling/vim-airline'
+    " Python boons and bonuses, mostly autopep8 and rake\gi\gg\igg,gi
+    Plugin 'klen/python-mode'
 
-  if needs_vundle == 0
-      echo "Installing Plugins..."
-      :PluginInstall
-  endif
+    if needs_vundle == 0
+        echo "Installing Plugins..."
+        :PluginInstall
+    endif
 endif
 
 
@@ -166,6 +168,7 @@ let g:netrw_liststyle=3
 
 
 """ Control-P --------------------------------------------------------------------------------------
+
 map <Leader>p :CtrlP<cr>
 map <Leader>b :CtrlPBuffer<cr>
 let g:ctrlp_prompt_mappings = {
@@ -177,29 +180,26 @@ let g:ctrlp_follow_symlinks = 1
 
 """ Syntastic --------------------------------------------------------------------------------------
 
-let g:syntastic_python_checkers = ['flake8', 'python', ]
-let g:syntastic_python_flake8_args = '--ignore=E501'
+let g:syntastic_python_checkers = ['python', ]
 let g:syntastic_aggregate_errors = 1
 
 
 """ Vim-Indent-Guides ------------------------------------------------------------------------------
 
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
-
-
-""" Python File Helpers ----------------------------------------------------------------------------
-
-" Destroy EOL whitespace in python files
-autocmd BufWrite *.py :silent! %s/\s\+$//
-" Expand 'ppdb' to a pdb set trace
-autocmd BufEnter *.py :iabbr ppdb import pdb;pdb.set_trace()
-" Remove pdb expansion in non-python files
-autocmd BufLeave *.py :unabbr ppdb
+" Automatically use indent guides
+let g:indent_guides_enable_on_vim_startup=0
+" Choose own guide colors
+let g:indent_guides_auto_colors=0
+" Guide width is 1 character column
+let g:indent_guides_guide_size=4
+" Explicit odd-numbered line color
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=11
+" Explicit even-numbered line color
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 
 
 """ Airline ----------------------------------------------------------------------------------------
+
 let g:airline_theme             = 'lucius'
 let g:airline_enable_branch     = 1
 let g:airline_enable_syntastic  = 1
@@ -214,5 +214,47 @@ let g:airline_readonly_symbol   = '⭤'
 let g:airline_linecolumn_prefix = '⭡'
 
 
+""" Python Mode ------------------------------------------------------------------------------------
+
+" Sort linter errors by priority
+let g:pymode_lint_sort = ["E", "F", "V", "C", "I", "T"]
+" 110 line characters maximum
+let g:pymode_options_max_line_length=109
+" Don't fold functions
+let g:pymode_folding=0
+" Leave linting to Syntastic
+let g:pymode_lint=1
+" Run linter on write
+let g:pymode_lint_on_write=1
+" Run linter on unmodified buffers too
+let g:pymode_lint_unmodified=0
+" Specify linters
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pep257']
+" Linter symbols
+let g:pymode_lint_comment_symbol = '📓'
+let g:pymode_lint_docs_symbol = '📝'
+let g:pymode_lint_error_symbol = '🔥'
+let g:pymode_lint_info_symbol = 'ℹ️'
+let g:pymode_lint_pyflakes_symbol = '💣'
+let g:pymode_lint_todo_symbol = '✏️'
+let g:pymode_lint_visual_symbol = '▶️'
+" Ignore warnings about line sizes
+let g:pymode_lint_ignore="E501,D401"
+" Leave syntax highlighting to Syntastic
+let g:pymode_syntax = 1
+" No rope, too slow
+let g:pymode_rope=0
+" No rope completion
+let g:pymode_rope_completion=0
+
+
 """ Key Mapping ------------------------------------------------------------------------------------
-noremap         <C-T>           :tabnext<CR>
+
+" Control+Tab, Next tab
+noremap         <C-T>        :tabnext<CR>
+" Leader+1, Truncate to first 100 characters on-line
+noremap         <Leader>1       ^100<Right>C<ESC>
+" Leader+o, Automatically fix PEP8 violations
+noremap         <Leader>o       :!autopep8 -i %<CR>:redraw!<CR>
+" Leader+l, Run linters
+noremap         <Leader>l       :PymodeLint<CR>
