@@ -238,8 +238,13 @@ let g:pymode_lint_info_symbol = 'ℹ️'
 let g:pymode_lint_pyflakes_symbol = '💣'
 let g:pymode_lint_todo_symbol = '✏️'
 let g:pymode_lint_visual_symbol = '▶️'
-" Ignore warnings about line sizes
-let g:pymode_lint_ignore="E501,D401"
+" Ignore warnings about
+"  - E501: line size > 80
+"  - D100: docstring uses indicative rather than imperative conjugation " (https://mail.python.org/pipermail/tutor/2012-May/089584.html)
+"  - D203: blank line ABOVE docstring
+"  - D204: blank line BELOW docstring
+"  - D401: missing module docstring
+let g:pymode_lint_ignore="E501,D100,D203,D204,D401"
 " Leave syntax highlighting to Syntastic
 let g:pymode_syntax = 1
 " No rope, too slow
