@@ -255,6 +255,23 @@ let g:pymode_rope=0
 let g:pymode_rope_completion=0
 
 
+""" My Functions -----------------------------------------------------------------------------------
+
+" Cycle through text-width definitions
+" ====================================
+function! CycleTextWidth()
+    " Set default widths if not defined
+    if !exists("g:textwidths")
+        let g:textwidths = [110, 80, ]
+    endif
+    " Take the next textwidth off the front of the list
+    let next_textwidth = get(g:textwidths, 0, 110)
+    let &textwidth = next_textwidth
+    " Move the value to the back of the list
+    let g:textwidths = g:textwidths[1:] + [next_textwidth]
+endfunction
+
+
 """ Key Mapping ------------------------------------------------------------------------------------
 
 " Control+Tab, Next tab
