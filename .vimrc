@@ -103,6 +103,8 @@ if exists("*vundle#rc")
     Plugin 'bling/vim-airline'
     " Python boons and bonuses, mostly autopep8 and rake\gi\gg\igg,gi
     Plugin 'klen/python-mode'
+    " Coverage highlighting for Python
+    Plugin 'alfredodeza/coveragepy.vim'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
