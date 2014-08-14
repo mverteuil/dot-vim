@@ -274,11 +274,17 @@ endfunction
 
 """ Key Mapping ------------------------------------------------------------------------------------
 
+" Control+Shift+Tab, Previous tab
+noremap         <C-S-Tab>       :tabprevious<CR>
 " Control+Tab, Next tab
-noremap         <C-T>        :tabnext<CR>
+noremap         <C-Tab>         :tabnext<CR>
+" Control+T, New tab
+noremap         <C-t>           :tabnew<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
-" Leader+o, Automatically fix PEP8 violations
-noremap         <Leader>o       :!autopep8 -i %<CR>:redraw!<CR>
-" Leader+l, Run linters
+" Leader+l, Run linters, PLUGIN: python-mode
 noremap         <Leader>l       :PymodeLint<CR>
+" Leader+r, Show Coverage, PLUGIN: coveragepy.vim
+noremap         <Leader>r       :silent CoveragePy report<CR>
+" Leader+w, Cycle through text-width definitions
+noremap         <leader>w       :call CycleTextWidth()<CR>
