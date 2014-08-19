@@ -271,6 +271,12 @@ function! CycleTextWidth()
     let g:textwidths = g:textwidths[1:] + [next_textwidth]
 endfunction
 
+" Split python import lines into tuple-formatted import
+" =====================================================
+function! SplitImports()
+    execute "normal 0/import\<CR>7li(\<ESC>A)\<ESC>?(\<CR>a\<CR>\<ESC>:s/ //g\<CR>A\<ESC>ji\<CR>\<ESC>kk:s/,/,\\r/g\<CR>$i\<CR>\<ESC>jv?(\<CR>j0A\<BS>\<ESC>v?(\<CR>=0"
+endfunction
+
 
 """ Key Mapping ------------------------------------------------------------------------------------
 
@@ -288,3 +294,5 @@ noremap         <Leader>l       :PymodeLint<CR>
 noremap         <Leader>r       :silent CoveragePy report<CR>
 " Leader+w, Cycle through text-width definitions
 noremap         <leader>w       :call CycleTextWidth()<CR>
+" Leader+i, Split multiple imports on one line into a multi-line tuple-import
+noremap         <leader>i       :call SplitImports()<CR>
