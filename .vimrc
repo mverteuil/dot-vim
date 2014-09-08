@@ -105,6 +105,10 @@ if exists("*vundle#rc")
     Plugin 'klen/python-mode'
     " Coverage highlighting for Python
     Plugin 'alfredodeza/coveragepy.vim'
+    " Better auto-alignment to tabs
+    Plugin 'godlygeek/tabular'
+    " Markdown syntax support
+    Plugin 'plasticboy/vim-markdown'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -253,6 +257,12 @@ let g:pymode_syntax = 1
 let g:pymode_rope=0
 " No rope completion
 let g:pymode_rope_completion=0
+
+
+""" Markdown ---------------------------------------------------------------------------------------
+
+" Don't fold in markdown files
+let g:vim_markdown_folding_disabled=1
 
 
 """ My Functions -----------------------------------------------------------------------------------
