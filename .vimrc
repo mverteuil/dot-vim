@@ -113,6 +113,8 @@ if exists("*vundle#rc")
     Plugin 'godlygeek/tabular'
     " Markdown syntax support
     Plugin 'plasticboy/vim-markdown'
+    " Tab renaming
+    Plugin 'gcmt/taboo.vim'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
