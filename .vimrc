@@ -302,6 +302,8 @@ noremap         <C-S-Tab>       :tabprevious<CR>
 noremap         <C-Tab>         :tabnext<CR>
 " Control+T, New tab
 noremap         <C-t>           :tabnew<CR>
+" Leader+s, Turn of highlighting search matches
+noremap         <Leader>s       :set nohlsearch<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+l, Run linters, PLUGIN: python-mode
