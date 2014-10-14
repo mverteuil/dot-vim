@@ -199,13 +199,13 @@ let g:syntastic_aggregate_errors = 1
 """ Vim-Indent-Guides ------------------------------------------------------------------------------
 
 " Automatically use indent guides
-let g:indent_guides_enable_on_vim_startup=0
+let g:indent_guides_enable_on_vim_startup=1
 " Choose own guide colors
-let g:indent_guides_auto_colors=0
+let g:indent_guides_auto_colors=1
 " Guide width is 1 character column
 let g:indent_guides_guide_size=4
 " Explicit odd-numbered line color
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=11
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
 " Explicit even-numbered line color
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 
