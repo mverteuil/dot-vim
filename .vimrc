@@ -39,7 +39,7 @@ set incsearch
 set ignorecase
 set smartcase
 " Files to ignore when searching
-set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc
+set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc,CACHE
 set wildignore+=tiny_mce,media,.sass-cache
 " A thousand remembered commands
 set history=1000
@@ -130,6 +130,8 @@ if exists("*vundle#rc")
     Plugin 'scrooloose/nerdtree'
     " NERDTree for dudes with tabs
     Plugin 'jistr/vim-nerdtree-tabs'
+    " Syntax highlighting in handlebars/mustache templates
+    Plugin 'mverteuil/vim-mustache-handlebars'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -293,8 +295,12 @@ noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+l, Run linters, PLUGIN: python-mode
 noremap         <Leader>l       :PymodeLint<CR>
 " Leader+r, Show Coverage, PLUGIN: coveragepy.vim
-noremap         <Leader>r       :silent CoveragePy report<CR>
+noremap         <Leader>r       :silent Coveragepy report<CR>
+" Leader+R, Show/hide Coverage window, PLUGIN: coveragepy.vim
+noremap         <Leader>R       :Coveragepy session<CR>
 " Leader+w, Cycle through text-width definitions
 noremap         <leader>w       :call CycleTextWidth()<CR>
 " Leader+i, Split multiple imports on one line into a multi-line tuple-import
 noremap         <leader>i       :call SplitImports()<CR>
+" Leader+z, Clear all CtrlP caches
+noremap         <leader>z       :ClearAllCtrlPCaches<CR>
