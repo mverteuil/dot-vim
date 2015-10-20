@@ -1,76 +1,5 @@
-""" Global -----------------------------------------------------------------------------------------
-
-" Vi mode is for suckers
-set nocompatible
-" Change directory to the current buffer when opening files.
-set autochdir
-" Prefix lines with their number
-set number
-" Show matching braces
-set showmatch
-" Don't wrap lines
-set nowrap
-" Expand tabs into spaces
-set expandtab
-" Size of tabs
-set softtabstop=4
-set shiftwidth=4
-set tabstop=4
-" Round shifted text to multiple of shiftwidth
-set shiftround
-" Maximum line width
-set textwidth=110
-" Backspace eats things correctly
-set backspace=indent,eol,start
-" Always keep cursor 2 lines from screen edge
-set scrolloff=2
-" Don't jump to start of line when moving around
-set nostartofline
-" No GUI
-set guioptions=a
-" Persist status bar in command mode
-set laststatus=2
-
-" Highlight matches
-set hlsearch
-" Incremental searches as you type
-set incsearch
-" Ignore case in searches when lowercase
-set ignorecase
-set smartcase
-" Files to ignore when searching
-set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc,CACHE
-set wildignore+=tiny_mce,media,.sass-cache
-" A thousand remembered commands
-set history=1000
-" Ctrl-W in command-line stops at /
-set iskeyword-=/
-" Share clipboard with system
-if has('unnamedplus')
-  set clipboard=unnamedplus
-else
-  set clipboard=unnamed
-endif
-
-" Smart indenting options for pythonic, and so forth
-set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-
-" No swap files
-set nobackup
-set noswapfile
-set nowritebackup
-
-
-""" Plugins ----------------------------------------------------------------------------------------
-
-"" General
-filetype on
-" Load filetype indents
-filetype indent on
-" Load filetype plugins
-filetype plugin on
-
-"" Vundle Configuration
+" Plugins {{{
+" Vundle Configuration {{{
 let needs_vundle = 1
 let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
 if !filereadable(vundle_readme)
@@ -94,14 +23,18 @@ if exists("*vundle#rc")
     Plugin 'chriskempson/base16-vim'
     " Substitutions and search for kings
     Plugin 'abolish.vim'
+    " Visual undo
+    Plugin 'sjl/gundo.vim'
     " Search for selected text with '*'
     Plugin 'nelstrom/vim-visual-star-search'
+    " Search for files and buffers
+    Plugin 'kien/ctrlp.vim'
+    " Search using Ag
+    Plugin 'rking/ag.vim'
     " Flake8 linting for Python
     Plugin 'nvie/vim-flake8'
     " Move through named variables easier
     Plugin 'bkad/CamelCaseMotion'
-    " Search for files and buffers
-    Plugin 'kien/ctrlp.vim'
     " Visualized indentation guide lines
     Plugin 'nathanaelkane/vim-indent-guides'
     " Syntax highlighting for winners
@@ -132,86 +65,49 @@ if exists("*vundle#rc")
     Plugin 'jistr/vim-nerdtree-tabs'
     " Syntax highlighting in handlebars/mustache templates
     Plugin 'mverteuil/vim-mustache-handlebars'
+    " Every variable a different colour
+    Plugin 'jaxbot/semantic-highlight.vim'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
         :PluginInstall
     endif
 endif
-
-
-""" Style configuration ----------------------------------------------------------------------------
-
-" Enable syntax highlighting
-syntax on
-" Use dark background always
-set background=dark
-" Use Base16's Mocha
-colorscheme base16-mocha
-
-
-" Fonts
-if has("gui_gtk2")
-    set guifont="Menlo for Powerline" 11
-    set linespace=2
-elseif has("gui_macvim")
-    set guifont="Menlo for Powerline":h11
-    set linespace=2
-elseif has("gui_win32")
-    set guifont="Menlo for Powerline":h11
-    set linespace=2
-endif
-
-
-""" Control-P --------------------------------------------------------------------------------------
-
-map <Leader>p :CtrlP<cr>
-map <Leader>b :CtrlPBuffer<cr>
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>', '<MiddleMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-let g:ctrlp_follow_symlinks = 1
-
-
-""" Syntastic --------------------------------------------------------------------------------------
-
-let g:syntastic_python_checkers = ['python', ]
-let g:syntastic_aggregate_errors = 1
-
-
-""" Vim-Indent-Guides ------------------------------------------------------------------------------
-
-" Automatically use indent guides
-let g:indent_guides_enable_on_vim_startup=1
-" Choose own guide colors
-let g:indent_guides_auto_colors=1
-" Guide width is 1 character column
-let g:indent_guides_guide_size=4
-" Explicit odd-numbered line color
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
-" Explicit even-numbered line color
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
-
-
-""" Airline ----------------------------------------------------------------------------------------
-
+" }}}
+" Ag {{{
+" Open ag.vim
+map             <Leader>a       :Ag<cr>
+" }}}
+" Airline {{{
 let g:airline_theme             = 'lucius'
-let g:airline_enable_branch     = 1
-let g:airline_enable_syntastic  = 1
-
 " vim-powerline symbols
 let g:airline_left_sep          = '⮀'
 let g:airline_left_alt_sep      = '⮁'
 let g:airline_right_sep         = '⮂'
 let g:airline_right_alt_sep     = '⮃'
-let g:airline_branch_prefix     = '⭠'
-let g:airline_readonly_symbol   = '⭤'
-let g:airline_linecolumn_prefix = '⭡'
-
-
-""" Python Mode ------------------------------------------------------------------------------------
-
+" }}}
+" Control-P {{{
+map             <Leader>p       :CtrlP<cr>
+map             <Leader>b       :CtrlPBuffer<cr>
+let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>', '<MiddleMouse>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_working_path_mode = 0
+" }}}
+" Gundo {{{
+" Toggle gundo
+nnoremap        <leader>u       :GundoToggle<CR>
+" }}}
+" Semantic Highlight {{{
+" Toggle semantic highlighting
+nnoremap        <Leader>j       :SemanticHighlightToggle<CR>
+" }}}
+" Python Mode {{{
 " Sort linter errors by priority
 let g:pymode_lint_sort = ["E", "F", "V", "C", "I", "T"]
 " 110 line characters maximum
@@ -247,16 +143,123 @@ let g:pymode_syntax = 1
 let g:pymode_rope=0
 " No rope completion
 let g:pymode_rope_completion=0
-
-
-""" Markdown ---------------------------------------------------------------------------------------
-
+" }}}
+" Markdown {{{
 " Don't fold in markdown files
 let g:vim_markdown_folding_disabled=1
+" }}}
+" Syntastic {{{
+let g:syntastic_python_checkers = ['python', ]
+let g:syntastic_aggregate_errors = 1
+" }}}
+" Vim-Indent-Guides {{{
+" Automatically use indent guides
+let g:indent_guides_enable_on_vim_startup=1
+" Choose own guide colors
+let g:indent_guides_auto_colors=1
+" Guide width is 1 character column
+let g:indent_guides_guide_size=4
+" Explicit odd-numbered line color
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
+" Explicit even-numbered line color
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
+" }}}
+" }}}
+" Global {{{
+" Vi mode is for suckers
+set nocompatible
+" Change directory to the current buffer when opening files.
+set autochdir
+" Don't redraw during macros
+set lazyredraw
+" Backspace eats things correctly
+set backspace=indent,eol,start
+" Don't jump to start of line when moving around
+set nostartofline
+" Ctrl-W in command-line stops at /
+set iskeyword-=/
+" Smart indenting options for pythonic, and so forth
+set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+" Load filetype settings
+filetype on
+" Load filetype indents
+filetype indent on
+" Load filetype plugins
+filetype plugin on
+" }}}
+" Searches {{{
+" Highlight matches
+set hlsearch
+" Incremental searches as you type
+set incsearch
+" Ignore case in searches when lowercase
+set ignorecase
+set smartcase
+" Files to ignore when searching
+set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc,CACHE
+set wildignore+=tiny_mce,media,.sass-cache
+" }}}
+" History & Backups {{{
+" A thousand remembered commands
+set history=1000
+" Share clipboard with system
+if has('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+" No swap files
+set nobackup
+set noswapfile
+set nowritebackup
+" }}}
+" Style {{{
+" Enable syntax highlighting
+syntax on
+" Use dark background always
+set background=dark
+" Use Base16's Mocha
+colorscheme base16-mocha
+" Prefix lines with their number
+set number
+" Show command in bottom bar
+set showcmd
+" Show matching braces
+set showmatch
+" Don't wrap lines
+set nowrap
+" Expand tabs into spaces
+set expandtab
+" Size of tabs
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+" Round shifted text to multiple of shiftwidth
+set shiftround
+" Maximum line width
+set textwidth=110
+" Always keep cursor 2 lines from screen edge
+set scrolloff=2
+" No GUI
+set guioptions=a
+" Persist status bar in command mode
+set laststatus=2
+" Visual autocomplete for command menu
+set wildmenu
 
-
-""" My Functions -----------------------------------------------------------------------------------
-
+" Fonts
+if has("gui_gtk2")
+    set guifont="Menlo for Powerline" 11
+    set linespace=2
+elseif has("gui_macvim")
+    set guifont="Menlo for Powerline":h11
+    set linespace=2
+elseif has("gui_win32")
+    set guifont="Menlo for Powerline":h11
+    set linespace=2
+endif
+" }}}
+" Custom Functions {{{
 " Cycle through text-width definitions
 " ====================================
 function! CycleTextWidth()
@@ -271,15 +274,26 @@ function! CycleTextWidth()
     let g:textwidths = g:textwidths[1:] + [next_textwidth]
 endfunction
 
-" Split python import lines into tuple-formatted import
-" =====================================================
+" Toggle between number and relativenumber
+" ========================================
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+" Split python import (
+"linesintotuple-formattedimport)
+" =============================
+" ========================
 function! SplitImports()
     execute "normal 0/import\<CR>7li(\<ESC>A)\<ESC>?(\<CR>a\<CR>\<ESC>:s/ //g\<CR>A\<ESC>ji\<CR>\<ESC>kk:s/,/,\\r/g\<CR>$i\<CR>\<ESC>jv?(\<CR>j0A\<BS>\<ESC>v?(\<CR>=0"
 endfunction
-
-
-""" Key Mapping ------------------------------------------------------------------------------------
-
+" }}}
+" Keyboard {{{
 " Control+e, Browse file system
 noremap         <C-e>           :NERDTreeTabsToggle<CR>
 " Control+Shift+Tab, Previous tab
@@ -288,8 +302,16 @@ noremap         <C-S-Tab>       :tabprevious<CR>
 noremap         <C-Tab>         :tabnext<CR>
 " Control+T, New tab
 noremap         <C-t>           :tabnew<CR>
+" Move to beginning/end of line
+nnoremap        B               ^
+nnoremap        E               $
+" $/^ become no-op
+nnoremap        $               <nop>
+nnoremap        ^               <nop>
+" Highlight last inserted text
+nnoremap        gV              `[v`]
 " Leader+s, Turn of highlighting search matches
-noremap         <Leader>s       :set nohlsearch<CR>
+nnoremap        <Leader><space> :nohlsearch<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+l, Run linters, PLUGIN: python-mode
@@ -299,8 +321,10 @@ noremap         <Leader>r       :silent Coveragepy report<CR>
 " Leader+R, Show/hide Coverage window, PLUGIN: coveragepy.vim
 noremap         <Leader>R       :Coveragepy session<CR>
 " Leader+w, Cycle through text-width definitions
-noremap         <leader>w       :call CycleTextWidth()<CR>
+noremap         <Leader>w       :call CycleTextWidth()<CR>
 " Leader+i, Split multiple imports on one line into a multi-line tuple-import
-noremap         <leader>i       :call SplitImports()<CR>
+noremap         <Leader>i       :call SplitImports()<CR>
 " Leader+z, Clear all CtrlP caches
-noremap         <leader>z       :ClearAllCtrlPCaches<CR>
+noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
+" }}}
+" vim:foldmethod=marker:foldlevel=0
