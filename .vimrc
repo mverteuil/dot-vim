@@ -67,6 +67,10 @@ if exists("*vundle#rc")
     Plugin 'mverteuil/vim-mustache-handlebars'
     " Every variable a different colour
     Plugin 'jaxbot/semantic-highlight.vim'
+    " CoffeeScript support
+    Plugin 'kchmck/vim-coffee-script'
+    " Python isort (import sort) support, requires isort to be installed
+    Plugin 'fisadev/vim-isort'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
