@@ -190,6 +190,8 @@ filetype on
 filetype indent on
 " Load filetype plugins
 filetype plugin on
+" Set the <Leader> to space
+let mapleader = '¥'
 " }}}
 " Searches {{{
 " Highlight matches
@@ -288,16 +290,9 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
-
-" Split python import (
-"linesintotuple-formattedimport)
-" =============================
-" ========================
-function! SplitImports()
-    execute "normal 0/import\<CR>7li(\<ESC>A)\<ESC>?(\<CR>a\<CR>\<ESC>:s/ //g\<CR>A\<ESC>ji\<CR>\<ESC>kk:s/,/,\\r/g\<CR>$i\<CR>\<ESC>jv?(\<CR>j0A\<BS>\<ESC>v?(\<CR>=0"
-endfunction
 " }}}
 " Keyboard {{{
+map             <space>         ¥
 " Control+e, Browse file system
 noremap         <C-e>           :NERDTreeTabsToggle<CR>
 " Control+Shift+Tab, Previous tab
@@ -327,7 +322,7 @@ noremap         <Leader>R       :Coveragepy session<CR>
 " Leader+w, Cycle through text-width definitions
 noremap         <Leader>w       :call CycleTextWidth()<CR>
 " Leader+i, Split multiple imports on one line into a multi-line tuple-import
-noremap         <Leader>i       :call SplitImports()<CR>
+noremap         <Leader>i       :Isort<CR>
 " Leader+z, Clear all CtrlP caches
 noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
 " }}}
