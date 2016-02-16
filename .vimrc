@@ -41,6 +41,8 @@ if exists("*vundle#rc")
     Plugin 'scrooloose/syntastic'
     " Awesome status bar for cool people
     Plugin 'bling/vim-airline'
+    " Styles the awesome status bar for cool people
+    Plugin 'vim-airline/vim-airline-themes'
     " Python boons and bonuses, mostly autopep8 and rake\gi\gg\igg,gi
     Plugin 'klen/python-mode'
     " Coverage highlighting for Python
@@ -172,8 +174,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 " Global {{{
 " Vi mode is for suckers
 set nocompatible
-" Change directory to the current buffer when opening files.
-set autochdir
+" Don't change directory to the current buffer when opening files.
+set noautochdir
 " Don't redraw during macros
 set lazyredraw
 " Backspace eats things correctly
