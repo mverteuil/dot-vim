@@ -71,8 +71,14 @@ if exists("*vundle#rc")
     Plugin 'jaxbot/semantic-highlight.vim'
     " CoffeeScript support
     Plugin 'kchmck/vim-coffee-script'
+    " Syntax highlighting for Django templates
+    Plugin 'django.vim'
+    " Makes editing XML/HTML a breeze
+    Plugin 'xml.vim'
     " Python isort (import sort) support, requires isort to be installed
     Plugin 'fisadev/vim-isort'
+    " Tab-complete with tab
+    Plugin 'ervandew/supertab'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -170,6 +176,18 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
 " Explicit even-numbered line color
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 " }}}
+" YouCompleteMe {{{
+" Let YCM read tags from Ctags file
+let g:ycm_collect_identifiers_from_tags_files = 1
+" Default 1, just ensure
+let g:ycm_use_ultisnips_completer = 1
+" Completion for programming language's keyword
+let g:ycm_seed_identifiers_with_syntax = 1
+" Completion in comments
+let g:ycm_complete_in_comments = 1
+" Completion in string
+let g:ycm_complete_in_strings = 1
+" }}}
 " }}}
 " Global {{{
 " Vi mode is for suckers
@@ -224,10 +242,12 @@ set nowritebackup
 " Style {{{
 " Enable syntax highlighting
 syntax on
+" Use VGA colors
+let base16colorspace=256
 " Use dark background always
 set background=dark
-" Use Base16's Mocha
-colorscheme base16-mocha
+" Use Base16's Atelier Seaside theme
+colorscheme base16-atelierseaside
 " Prefix lines with their number
 set number
 " Show command in bottom bar
