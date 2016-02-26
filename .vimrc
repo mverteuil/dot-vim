@@ -79,6 +79,10 @@ if exists("*vundle#rc")
     Plugin 'fisadev/vim-isort'
     " Tab-complete with tab
     Plugin 'ervandew/supertab'
+    " Snippets engine
+    Plugin 'SirVer/ultisnips'
+    " Snippets are separated from the engine. Add this if you want them:
+    Plugin 'honza/vim-snippets'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -160,6 +164,9 @@ let g:pymode_rope_completion=0
 " Don't fold in markdown files
 let g:vim_markdown_folding_disabled=1
 " }}}
+" supertab {{{
+"let g:SuperTabDefaultCompletionType = '<tab>'
+" }}}
 " Syntastic {{{
 let g:syntastic_python_checkers = ['python', ]
 let g:syntastic_aggregate_errors = 1
@@ -176,6 +183,17 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
 " Explicit even-numbered line color
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 " }}}
+" ultiSnips {{{
+" Better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<CR>"
+if !exists("g:UltiSnipsJumpForwardTrigger")
+  let g:UltiSnipsJumpForwardTrigger = "<CR>"
+endif
+
+if !exists("g:UltiSnipsJumpBackwardTrigger")
+  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+endif
+" }}}
 " YouCompleteMe {{{
 " Let YCM read tags from Ctags file
 let g:ycm_collect_identifiers_from_tags_files = 1
@@ -187,6 +205,9 @@ let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_comments = 1
 " Completion in string
 let g:ycm_complete_in_strings = 1
+" Alternative selection keys
+"let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
 " }}}
 " }}}
 " Global {{{
@@ -312,15 +333,43 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
+" Smart UltiSnips Completion
+" ==========================
+function! g:UltiSnips_Complete()
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res == 0
+    if pumvisible()
+      return "\<C-n>"
+    else
+      call UltiSnips#JumpForwards()
+      if g:ulti_jump_forwards_res == 0
+        return "\<TAB>"
+      endif
+    endif
+  endif
+  return ""
+endfunction
+" Smart UltiSnips Reverse
+" =======================
+function! g:UltiSnips_Reverse()
+  call UltiSnips#JumpBackwards()
+  if g:ulti_jump_backwards_res == 0
+    return "\<C-P>"
+  endif
+  return ""
+endfunction
+
+au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 " }}}
 " Keyboard {{{
 map             <space>         ¥
 " Control+e, Browse file system
 noremap         <C-e>           :NERDTreeTabsToggle<CR>
-" Control+Shift+Tab, Previous tab
-noremap         <C-S-Tab>       :tabprevious<CR>
-" Control+Tab, Next tab
-noremap         <C-Tab>         :tabnext<CR>
+" Leader+Shift+Tab, Previous tab
+noremap         <Leader><S-Tab> :tabprevious<CR>
+" Leader+Tab, Next tab
+noremap         <Leader><Tab>   :tabnext<CR>
 " Control+T, New tab
 noremap         <C-t>           :tabnew<CR>
 " Move to beginning/end of line
@@ -328,7 +377,7 @@ nnoremap        B               ^
 nnoremap        E               $
 " $/^ become no-op
 nnoremap        $               <nop>
-nnoremap        ^               <nop>
+"nnoremap        ^               <nop>
 " Highlight last inserted text
 nnoremap        gV              `[v`]
 " Leader+s, Turn of highlighting search matches
@@ -347,5 +396,7 @@ noremap         <Leader>w       :call CycleTextWidth()<CR>
 noremap         <Leader>i       :Isort<CR>
 " Leader+z, Clear all CtrlP caches
 noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
+" Leader+n, Toggle relative numbers
+noremap         <Leader>n       :call ToggleNumber()<CR>
 " }}}
 " vim:foldmethod=marker:foldlevel=0
