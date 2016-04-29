@@ -39,10 +39,6 @@ if exists("*vundle#rc")
     Plugin 'nathanaelkane/vim-indent-guides'
     " Syntax highlighting for winners
     Plugin 'scrooloose/syntastic'
-    " Awesome status bar for cool people
-    Plugin 'bling/vim-airline'
-    " Styles the awesome status bar for cool people
-    Plugin 'vim-airline/vim-airline-themes'
     " Python boons and bonuses, mostly autopep8 and rake\gi\gg\igg,gi
     Plugin 'klen/python-mode'
     " Coverage highlighting for Python
@@ -83,6 +79,10 @@ if exists("*vundle#rc")
     Plugin 'SirVer/ultisnips'
     " Snippets are separated from the engine. Add this if you want them:
     Plugin 'honza/vim-snippets'
+    " Time tracking
+    Plugin 'wakatime/vim-wakatime'
+    " Base16 powerline
+    Plugin 'terlar/base16-vim-powerline'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -94,13 +94,8 @@ endif
 " Open ag.vim
 map             <Leader>a       :Ag<cr>
 " }}}
-" Airline {{{
-let g:airline_theme             = 'lucius'
-" vim-powerline symbols
-let g:airline_left_sep          = '⮀'
-let g:airline_left_alt_sep      = '⮁'
-let g:airline_right_sep         = '⮂'
-let g:airline_right_alt_sep     = '⮃'
+" Base16-Vim-Powerlne {{{
+let g:Powerline_colorscheme = 'base16'
 " }}}
 " Control-P {{{
 map             <Leader>p       :CtrlP<cr>
@@ -164,8 +159,11 @@ let g:pymode_rope_completion=0
 " Don't fold in markdown files
 let g:vim_markdown_folding_disabled=1
 " }}}
+" NERDTree {{{
+" }}}
+"
 " supertab {{{
-"let g:SuperTabDefaultCompletionType = '<tab>'
+let g:SuperTabDefaultCompletionType = '<tab>'
 " }}}
 " Syntastic {{{
 let g:syntastic_python_checkers = ['python', ]
@@ -185,14 +183,9 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 " }}}
 " ultiSnips {{{
 " Better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<CR>"
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<CR>"
-endif
-
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
+let g:UltiSnipsExpandTrigger = "<S-CR>"
+let g:UltiSnipsJumpForwardTrigger = "<S-Right>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Left>"
 " }}}
 " YouCompleteMe {{{
 " Let YCM read tags from Ctags file
@@ -205,9 +198,6 @@ let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_comments = 1
 " Completion in string
 let g:ycm_complete_in_strings = 1
-" Alternative selection keys
-"let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
 " }}}
 " }}}
 " Global {{{
@@ -225,6 +215,8 @@ set nostartofline
 set iskeyword-=/
 " Smart indenting options for pythonic, and so forth
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+" Default to utf-8
+set encoding=utf-8
 " Load filetype settings
 filetype on
 " Load filetype indents
@@ -267,8 +259,8 @@ syntax on
 let base16colorspace=256
 " Use dark background always
 set background=dark
-" Use Base16's Atelier Seaside theme
-colorscheme base16-atelierseaside
+" Use Base16's Tomorrow Theme
+colorscheme base16-tomorrow
 " Prefix lines with their number
 set number
 " Show command in bottom bar
@@ -295,18 +287,23 @@ set guioptions=a
 set laststatus=2
 " Visual autocomplete for command menu
 set wildmenu
+" Always display the tabline, even if there is only one tab
+set showtabline=2 
+" Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set noshowmode 
 
 " Fonts
 if has("gui_gtk2")
-    set guifont="Menlo for Powerline" 11
-    set linespace=2
+    set guifont=Input\ Mono\ Condensed:h12
+    set linespace=4
 elseif has("gui_macvim")
-    set guifont="Menlo for Powerline":h11
-    set linespace=2
+    set guifont=Input\ Mono\ Condensed:h12
+    set linespace=4
 elseif has("gui_win32")
-    set guifont="Menlo for Powerline":h11
-    set linespace=2
+    set guifont=Input\ Mono\ Condensed:h12
+    set linespace=4
 endif
+
 " }}}
 " Custom Functions {{{
 " Cycle through text-width definitions
@@ -333,34 +330,6 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
-" Smart UltiSnips Completion
-" ==========================
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-" Smart UltiSnips Reverse
-" =======================
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-  return ""
-endfunction
-
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 " }}}
 " Keyboard {{{
 map             <space>         ¥
@@ -399,4 +368,8 @@ noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
 " Leader+n, Toggle relative numbers
 noremap         <Leader>n       :call ToggleNumber()<CR>
 " }}}
+" Powerline
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
 " vim:foldmethod=marker:foldlevel=0
