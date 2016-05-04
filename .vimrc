@@ -89,6 +89,12 @@ if exists("*vundle#rc")
     Plugin 'tpope/vim-fugitive'
     " Unicode tools and support
     Plugin 'unicode.vim'
+    " Virtualenv support
+    Plugin 'vimscripts/vim-virtualenv'
+    " Ctags explorer
+    Plugin 'majutsushi/tagbar'
+    " Ctags generator
+    Plugin 'xolox/vim-easytags'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -167,10 +173,14 @@ let g:SuperTabDefaultCompletionType = '<tab>'
 let g:syntastic_python_checkers = ['python', 'compile', 'flake8', 'pydocstyle', 'pylint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height = 4
+" Don't open window on errors, but close window if no errors
+let g:syntastic_auto_loc_list = 2
+" Jump to the first issue detected, but only if it's an error
+let g:syntastic_auto_jump = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
-let g:syntastic_enable_highlighting = 0
+let g:syntastic_enable_highlighting = 1
 " Ignore warnings about
 "  - D100: docstring uses indicative rather than imperative conjugation " (https://mail.python.org/pipermail/tutor/2012-May/089584.html)
 "  - D203: blank line ABOVE docstring
@@ -179,6 +189,16 @@ let g:syntastic_enable_highlighting = 0
 let g:syntastic_python_flake8_args = '--ignore=D100,D203,D204,D401 --max-line-length=109'
 let g:syntastic_python_pylint_args = '--disable=missing-docstring,invalid-name,too-many-ancestors'
 
+" }}}
+" ultiSnips {{{
+" Better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<S-CR>"
+let g:UltiSnipsJumpForwardTrigger = "<S-Right>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Left>"
+" }}}
+" vim-easytags {{{
+" Re-index tags in the background
+let g:easytags_async = 1
 " }}}
 " Vim-Indent-Guides {{{
 " Automatically use indent guides
@@ -192,11 +212,9 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=10
 " Explicit even-numbered line color
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=11
 " }}}
-" ultiSnips {{{
-" Better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<S-CR>"
-let g:UltiSnipsJumpForwardTrigger = "<S-Right>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Left>"
+" vim-virtualenv {{{
+" Automatically activate the virtualenv if detected
+let g:virtualenv_auto_activate = 1
 " }}}
 " YouCompleteMe {{{
 " Let YCM read tags from Ctags file
@@ -356,7 +374,7 @@ noremap         <C-t>           :tabnew<CR>
 nnoremap        B               ^
 nnoremap        E               $
 " $/^ become no-op
-nnoremap        $               <nop>
+"nnoremap        $               <nop>
 "nnoremap        ^               <nop>
 " Highlight last inserted text
 nnoremap        gV              `[v`]
@@ -366,10 +384,10 @@ nnoremap        <Leader><space> :nohlsearch<CR>
 noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+l, Run linters, PLUGIN: python-mode
 noremap         <Leader>l       :SyntasticCheck<CR>
-" Leader+r, Show Coverage, PLUGIN: coveragepy.vim
-noremap         <Leader>r       :silent Coveragepy report<CR>
-" Leader+R, Show/hide Coverage window, PLUGIN: coveragepy.vim
-noremap         <Leader>R       :Coveragepy session<CR>
+" Leader+c, Show Coverage, PLUGIN: coveragepy.vim
+noremap         <Leader>c       :silent Coveragepy report<CR><C-w><down><C-w>c
+" Leader+C, Show/hide Coverage window, PLUGIN: coveragepy.vim
+noremap         <Leader>C       :Coveragepy session<CR>
 " Leader+w, Cycle through text-width definitions
 noremap         <Leader>w       :call CycleTextWidth()<CR>
 " Leader+i, Split multiple imports on one line into a multi-line tuple-import
@@ -378,6 +396,17 @@ noremap         <Leader>i       :Isort<CR>
 noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
 " Leader+n, Toggle relative numbers
 noremap         <Leader>n       :call ToggleNumber()<CR>
+" Leader+u, Gundo toggle
+noremap         <Leader>u       :GundoToggle<CR>
+" Leader+p, Run all tests
+noremap         <Leader>p       :Pytest project
+" Leader+m, Run test method
+noremap         <Leader>m       :Pytest method<CR>
+" Leader+f, Run test file
+noremap         <Leader>f       :Pytest file<CR>
+" Leader+t, Show test session
+noremap         <leader>t       :Pytest session<CR>
+
 " }}}
 " Powerline
 python from powerline.vim import setup as powerline_setup
