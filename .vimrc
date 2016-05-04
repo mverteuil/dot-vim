@@ -28,11 +28,9 @@ if exists("*vundle#rc")
     " Search for selected text with '*'
     Plugin 'nelstrom/vim-visual-star-search'
     " Search for files and buffers
-    Plugin 'kien/ctrlp.vim'
+    Plugin 'ctrlpvim/ctrlp.vim'
     " Search using Ag
     Plugin 'rking/ag.vim'
-    " Flake8 linting for Python
-    Plugin 'nvie/vim-flake8'
     " Move through named variables easier
     Plugin 'bkad/CamelCaseMotion'
     " Visualized indentation guide lines
@@ -83,6 +81,14 @@ if exists("*vundle#rc")
     Plugin 'wakatime/vim-wakatime'
     " Base16 powerline
     Plugin 'terlar/base16-vim-powerline'
+    " Improved shell support
+    Plugin 'vim-scripts/Conque-Shell'
+    " Pytest support
+    Plugin 'mverteuil/pytest.vim'
+    " Git support
+    Plugin 'tpope/vim-fugitive'
+    " Unicode tools and support
+    Plugin 'unicode.vim'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -119,55 +125,60 @@ nnoremap        <leader>u       :GundoToggle<CR>
 nnoremap        <Leader>j       :SemanticHighlightToggle<CR>
 " }}}
 " Python Mode {{{
-" Sort linter errors by priority
-let g:pymode_lint_sort = ["E", "F", "V", "C", "I", "T"]
 " 110 line characters maximum
 let g:pymode_options_max_line_length=109
 " Don't fold functions
 let g:pymode_folding=0
 " Leave linting to Syntastic
-let g:pymode_lint=1
-" Run linter on write
-let g:pymode_lint_on_write=1
-" Run linter on unmodified buffers too
+let g:pymode_lint=0
+let g:pymode_lint_on_write=0
+let g:pymode_lint_on_the_fly=0
 let g:pymode_lint_unmodified=0
-" Specify linters
-let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pep257']
-" Linter symbols
-let g:pymode_lint_comment_symbol = '📓'
-let g:pymode_lint_docs_symbol = '📝'
-let g:pymode_lint_error_symbol = '🔥'
-let g:pymode_lint_info_symbol = 'ℹ️'
-let g:pymode_lint_pyflakes_symbol = '💣'
-let g:pymode_lint_todo_symbol = '✏️'
-let g:pymode_lint_visual_symbol = '▶️'
-" Ignore warnings about
-"  - E501: line size > 80
-"  - D100: docstring uses indicative rather than imperative conjugation " (https://mail.python.org/pipermail/tutor/2012-May/089584.html)
-"  - D203: blank line ABOVE docstring
-"  - D204: blank line BELOW docstring
-"  - D401: missing module docstring
-let g:pymode_lint_ignore="E501,D100,D203,D204,D401"
-" Leave syntax highlighting to Syntastic
+let g:pymode_lint_checkers = []
+" Do syntax hightlighting with pymode, not syntastic
 let g:pymode_syntax = 1
 " No rope, too slow
 let g:pymode_rope=0
 " No rope completion
 let g:pymode_rope_completion=0
+" Assist with indenting
+let g:pymode_indent = 1
+" Load the virtualenv
+let g:pymode_virtualenv = 1
 " }}}
 " Markdown {{{
 " Don't fold in markdown files
 let g:vim_markdown_folding_disabled=1
 " }}}
 " NERDTree {{{
+" Set ignored file pattern
+let NERDTreeIgnore=['.pyc$']
+" Use the wildignore list for ignoring files
+let NERDTreeRespectWildIgnore=1
+" Close explore window on file open
+let NERDTreeQuitOnOpen=1
+" Don't open nerdtree on startup
+let g:nerdtree_tabs_open_on_gui_startup = 0
 " }}}
-"
 " supertab {{{
 let g:SuperTabDefaultCompletionType = '<tab>'
 " }}}
 " Syntastic {{{
-let g:syntastic_python_checkers = ['python', ]
+let g:syntastic_python_checkers = ['python', 'compile', 'flake8', 'pydocstyle', 'pylint']
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_enable_highlighting = 0
+" Ignore warnings about
+"  - D100: docstring uses indicative rather than imperative conjugation " (https://mail.python.org/pipermail/tutor/2012-May/089584.html)
+"  - D203: blank line ABOVE docstring
+"  - D204: blank line BELOW docstring
+"  - D401: missing module docstring
+let g:syntastic_python_flake8_args = '--ignore=D100,D203,D204,D401 --max-line-length=109'
+let g:syntastic_python_pylint_args = '--disable=missing-docstring,invalid-name,too-many-ancestors'
+
 " }}}
 " Vim-Indent-Guides {{{
 " Automatically use indent guides
@@ -223,7 +234,7 @@ filetype on
 filetype indent on
 " Load filetype plugins
 filetype plugin on
-" Set the <Leader> to space
+" Set the <Leader> to space (via Yen)
 let mapleader = '¥'
 " }}}
 " Searches {{{
@@ -354,7 +365,7 @@ nnoremap        <Leader><space> :nohlsearch<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+l, Run linters, PLUGIN: python-mode
-noremap         <Leader>l       :PymodeLint<CR>
+noremap         <Leader>l       :SyntasticCheck<CR>
 " Leader+r, Show Coverage, PLUGIN: coveragepy.vim
 noremap         <Leader>r       :silent Coveragepy report<CR>
 " Leader+R, Show/hide Coverage window, PLUGIN: coveragepy.vim
