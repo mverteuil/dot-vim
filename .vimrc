@@ -35,9 +35,9 @@ if exists("*vundle#rc")
     Plugin 'bkad/CamelCaseMotion'
     " Visualized indentation guide lines
     Plugin 'nathanaelkane/vim-indent-guides'
-    " Syntax highlighting for winners
+    " Syntax checking for winners
     Plugin 'scrooloose/syntastic'
-    " Python boons and bonuses, mostly autopep8 and rake\gi\gg\igg,gi
+    " Python boons and bonuses
     Plugin 'klen/python-mode'
     " Coverage highlighting for Python
     Plugin 'alfredodeza/coveragepy.vim'
@@ -45,16 +45,10 @@ if exists("*vundle#rc")
     Plugin 'godlygeek/tabular'
     " Markdown syntax support
     Plugin 'plasticboy/vim-markdown'
-    " Tab renaming
-    Plugin 'gcmt/taboo.vim'
     " Look up docs in Dash.app
     Plugin 'rizzatti/dash.vim'
     " Tab completion
     Plugin 'Valloric/YouCompleteMe'
-    " Jump around without requiring nohlsearch all the time
-    Plugin 'justinmk/vim-sneak'
-    " Git change indications in the gutter
-    Plugin 'airblade/vim-gitgutter'
     " File browsing like a boss
     Plugin 'scrooloose/nerdtree'
     " NERDTree for dudes with tabs
@@ -90,11 +84,13 @@ if exists("*vundle#rc")
     " Unicode tools and support
     Plugin 'unicode.vim'
     " Virtualenv support
-    Plugin 'vimscripts/vim-virtualenv'
+    Plugin 'jmcantrell/vim-virtualenv'
     " Ctags explorer
     Plugin 'majutsushi/tagbar'
     " Ctags generator
     Plugin 'xolox/vim-easytags'
+    " vim-easytags dep: Miscellaneous auto-load Vim scripts
+    Plugin 'xolox/vim-misc'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -364,6 +360,10 @@ endfunc
 map             <space>         ¥
 " Control+e, Browse file system
 noremap         <C-e>           :NERDTreeTabsToggle<CR>
+" Control+l, Tag bar toggle
+noremap         <C-l>           :TagbarToggle<CR>
+" Control+[, Tag bar toggle
+noremap         <C-_>          :CtrlPTag<CR>
 " Leader+Shift+Tab, Previous tab
 noremap         <Leader><S-Tab> :tabprevious<CR>
 " Leader+Tab, Next tab
@@ -382,8 +382,6 @@ nnoremap        gV              `[v`]
 nnoremap        <Leader><space> :nohlsearch<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
-" Leader+l, Run linters, PLUGIN: python-mode
-noremap         <Leader>l       :SyntasticCheck<CR>
 " Leader+c, Show Coverage, PLUGIN: coveragepy.vim
 noremap         <Leader>c       :silent Coveragepy report<CR><C-w><down><C-w>c
 " Leader+C, Show/hide Coverage window, PLUGIN: coveragepy.vim
@@ -394,6 +392,10 @@ noremap         <Leader>w       :call CycleTextWidth()<CR>
 noremap         <Leader>i       :Isort<CR>
 " Leader+z, Clear all CtrlP caches
 noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
+" Leader+l, Show linter location list
+noremap         <Leader>l       :lopen 3<CR>
+" Leader+L, Hide linter location list
+noremap         <Leader>L       :lclose<CR>
 " Leader+n, Toggle relative numbers
 noremap         <Leader>n       :call ToggleNumber()<CR>
 " Leader+u, Gundo toggle
@@ -406,6 +408,7 @@ noremap         <Leader>m       :Pytest method<CR>
 noremap         <Leader>f       :Pytest file<CR>
 " Leader+t, Show test session
 noremap         <leader>t       :Pytest session<CR>
+
 
 " }}}
 " Powerline
