@@ -19,78 +19,87 @@ if exists("*vundle#rc")
     " Plugins for vim
     Plugin 'gmarik/vundle'
 
-    " Colours for people who like pretty things
-    Plugin 'chriskempson/base16-vim'
+    if $USER ==# "mverteuil"
+        " Colours for people who like pretty things
+        Plugin 'chriskempson/base16-vim'
+        " Visual undo
+        Plugin 'sjl/gundo.vim'
+        " Search for selected text with '*'
+        Plugin 'nelstrom/vim-visual-star-search'
+        " Search for files and buffers
+        Plugin 'ctrlpvim/ctrlp.vim'
+        " Search using Ag
+        Plugin 'rking/ag.vim'
+        " Move through named variables easier
+        Plugin 'bkad/CamelCaseMotion'
+        " Visualized indentation guide lines
+        Plugin 'nathanaelkane/vim-indent-guides'
+        " Coverage highlighting for Python
+        Plugin 'alfredodeza/coveragepy.vim'
+        " Better auto-alignment to tabs
+        Plugin 'godlygeek/tabular'
+        " Markdown syntax support
+        Plugin 'plasticboy/vim-markdown'
+        " Look up docs in Dash.app
+        Plugin 'rizzatti/dash.vim'
+        " Tab completion
+        Plugin 'Valloric/YouCompleteMe'
+        " Syntax highlighting in handlebars/mustache templates
+        Plugin 'mverteuil/vim-mustache-handlebars'
+        " Every variable a different colour
+        Plugin 'jaxbot/semantic-highlight.vim'
+        " CoffeeScript support
+        Plugin 'kchmck/vim-coffee-script'
+        " Syntax highlighting for Django templates
+        Plugin 'django.vim'
+        " Makes editing XML/HTML a breeze
+        Plugin 'xml.vim'
+        " Python isort (import sort) support, requires isort to be installed
+        Plugin 'fisadev/vim-isort'
+        " Tab-complete with tab
+        Plugin 'ervandew/supertab'
+        " Snippets engine
+        Plugin 'SirVer/ultisnips'
+        " Snippets are separated from the engine. Add this if you want them:
+        Plugin 'honza/vim-snippets'
+        " Time tracking
+        Plugin 'wakatime/vim-wakatime'
+        " Improved shell support
+        Plugin 'vim-scripts/Conque-Shell'
+        " Pytest support
+        Plugin 'mverteuil/pytest.vim'
+        " Git support
+        Plugin 'tpope/vim-fugitive'
+        " Virtualenv support
+        Plugin 'jmcantrell/vim-virtualenv'
+        " Ctags explorer
+        Plugin 'majutsushi/tagbar'
+        " Ctags generator
+        Plugin 'xolox/vim-easytags'
+        " vim-easytags dep: Miscellaneous auto-load Vim scripts
+        Plugin 'xolox/vim-misc'
+        " Until powerline is supported in neovim...
+        Plugin 'bling/vim-airline'
+        " Airline gotta look good yo
+        Plugin 'vim-airline/vim-airline-themes'
+endif
+
+
+    " --- ABOVE PLUGINS ARE LOCAL ---
+    " --- BELOW PLUGINS WILL BE INCLUDED IN SSH SESSIONS ---
+
     " Substitutions and search for kings
     Plugin 'abolish.vim'
-    " Visual undo
-    Plugin 'sjl/gundo.vim'
-    " Search for selected text with '*'
-    Plugin 'nelstrom/vim-visual-star-search'
-    " Search for files and buffers
-    Plugin 'ctrlpvim/ctrlp.vim'
-    " Search using Ag
-    Plugin 'rking/ag.vim'
-    " Move through named variables easier
-    Plugin 'bkad/CamelCaseMotion'
-    " Visualized indentation guide lines
-    Plugin 'nathanaelkane/vim-indent-guides'
     " Syntax checking for winners
     Plugin 'scrooloose/syntastic'
     " Python boons and bonuses
     Plugin 'klen/python-mode'
-    " Coverage highlighting for Python
-    Plugin 'alfredodeza/coveragepy.vim'
-    " Better auto-alignment to tabs
-    Plugin 'godlygeek/tabular'
-    " Markdown syntax support
-    Plugin 'plasticboy/vim-markdown'
-    " Look up docs in Dash.app
-    Plugin 'rizzatti/dash.vim'
-    " Tab completion
-    Plugin 'Valloric/YouCompleteMe'
+    " Unicode tools and support
+    Plugin 'unicode.vim'
     " File browsing like a boss
     Plugin 'scrooloose/nerdtree'
     " NERDTree for dudes with tabs
     Plugin 'jistr/vim-nerdtree-tabs'
-    " Syntax highlighting in handlebars/mustache templates
-    Plugin 'mverteuil/vim-mustache-handlebars'
-    " Every variable a different colour
-    Plugin 'jaxbot/semantic-highlight.vim'
-    " CoffeeScript support
-    Plugin 'kchmck/vim-coffee-script'
-    " Syntax highlighting for Django templates
-    Plugin 'django.vim'
-    " Makes editing XML/HTML a breeze
-    Plugin 'xml.vim'
-    " Python isort (import sort) support, requires isort to be installed
-    Plugin 'fisadev/vim-isort'
-    " Tab-complete with tab
-    Plugin 'ervandew/supertab'
-    " Snippets engine
-    Plugin 'SirVer/ultisnips'
-    " Snippets are separated from the engine. Add this if you want them:
-    Plugin 'honza/vim-snippets'
-    " Time tracking
-    Plugin 'wakatime/vim-wakatime'
-    " Base16 powerline
-    Plugin 'terlar/base16-vim-powerline'
-    " Improved shell support
-    Plugin 'vim-scripts/Conque-Shell'
-    " Pytest support
-    Plugin 'mverteuil/pytest.vim'
-    " Git support
-    Plugin 'tpope/vim-fugitive'
-    " Unicode tools and support
-    Plugin 'unicode.vim'
-    " Virtualenv support
-    Plugin 'jmcantrell/vim-virtualenv'
-    " Ctags explorer
-    Plugin 'majutsushi/tagbar'
-    " Ctags generator
-    Plugin 'xolox/vim-easytags'
-    " vim-easytags dep: Miscellaneous auto-load Vim scripts
-    Plugin 'xolox/vim-misc'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -102,21 +111,17 @@ endif
 " Open ag.vim
 map             <Leader>a       :Ag<cr>
 " }}}
-" Base16-Vim-Powerlne {{{
-let g:Powerline_colorscheme = 'base16'
-" }}}
 " Control-P {{{
-map             <Leader>p       :CtrlP<cr>
-map             <Leader>b       :CtrlPBuffer<cr>
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_follow_symlinks = 0
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<c-t>', '<MiddleMouse>'],
     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
     \ }
 let g:ctrlp_switch_buffer = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+let g:ctrlp_lazy_update = 1
 " }}}
 " Gundo {{{
 " Toggle gundo
@@ -174,7 +179,7 @@ let g:syntastic_loc_list_height = 4
 let g:syntastic_auto_loc_list = 2
 " Jump to the first issue detected, but only if it's an error
 let g:syntastic_auto_jump = 2
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_enable_highlighting = 1
 " Ignore warnings about
@@ -191,6 +196,14 @@ let g:syntastic_python_pylint_args = '--disable=missing-docstring,invalid-name,t
 let g:UltiSnipsExpandTrigger = "<S-CR>"
 let g:UltiSnipsJumpForwardTrigger = "<S-Right>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Left>"
+" }}}
+" vim-airline {{{
+" Use powerline fonts
+let g:airline_powerline_fonts = 1
+" Use tabline
+let g:airline#extensions#tabline#enabled = 1
+" Set the theme
+let g:airline_theme = 'papercolor'
 " }}}
 " vim-easytags {{{
 " Re-index tags in the background
@@ -251,6 +264,12 @@ filetype plugin on
 " Set the <Leader> to space (via Yen)
 let mapleader = '¥'
 " }}}
+" Local-only {{{
+if $USER ==# "mverteuil"
+    " Rebuild tags for the virtualenv when writing python files
+    autocmd BufWritePost,FileWritePost *.py :silent! ![[ -s $VIRTUAL_ENV ]] && ctags -R -o ~/.tags $VIRTUAL_ENV &
+endif
+" }}}
 " Searches {{{
 " Highlight matches
 set hlsearch
@@ -260,8 +279,9 @@ set incsearch
 set ignorecase
 set smartcase
 " Files to ignore when searching
-set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.ai,*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc,CACHE
-set wildignore+=tiny_mce,media,.sass-cache
+set wildignore=.git,*.pyc,*.jpg,*.jpeg,*.png,*.bmp,*.doc,*.xls,*.swf,*.pdf,*.psd,*.as
+set wildignore+=*.mov,*.gz,*.jfif,*.tiff,*.docx,*.xml,*.wmv,*.otf,*.ttf,*.min.js,*.sassc
+set wildignore+=CACHE,*\\.git\\*,tiny_mce,media,.sass-cache
 " }}}
 " History & Backups {{{
 " A thousand remembered commands
@@ -280,12 +300,11 @@ set nowritebackup
 " Style {{{
 " Enable syntax highlighting
 syntax on
-" Use VGA colors
-let base16colorspace=256
 " Use dark background always
 set background=dark
-" Use Base16's Tomorrow Theme
-colorscheme base16-tomorrow
+" Use Base16's Tomorrow Theme When Available, otherwise Desert
+colorscheme desert
+silent! colorscheme base16-tomorrow
 " Prefix lines with their number
 set number
 " Show command in bottom bar
@@ -383,7 +402,7 @@ nnoremap        <Leader><space> :nohlsearch<CR>
 " Leader+1, Truncate to first 100 characters on-line
 noremap         <Leader>1       ^100<Right>C<ESC>
 " Leader+c, Show Coverage, PLUGIN: coveragepy.vim
-noremap         <Leader>c       :silent Coveragepy report<CR><C-w><down><C-w>c
+noremap         <Leader>R       :silent Coveragepy report<CR><C-w><down><C-w>c
 " Leader+C, Show/hide Coverage window, PLUGIN: coveragepy.vim
 noremap         <Leader>C       :Coveragepy session<CR>
 " Leader+w, Cycle through text-width definitions
@@ -408,11 +427,9 @@ noremap         <Leader>m       :Pytest method<CR>
 noremap         <Leader>f       :Pytest file<CR>
 " Leader+t, Show test session
 noremap         <leader>t       :Pytest session<CR>
+" Leader+x, Delete buffer
+noremap         <leader>x       :bdelete<CR>
 
 
 " }}}
-" Powerline
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
 " vim:foldmethod=marker:foldlevel=0
