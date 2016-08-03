@@ -68,6 +68,8 @@ if exists("*vundle#rc")
         Plugin 'vim-scripts/Conque-Shell'
         " Pytest support
         Plugin 'mverteuil/pytest.vim'
+        " Vim test
+        Plugin 'janko-m/vim-test'
         " Git support
         Plugin 'tpope/vim-fugitive'
         " Virtualenv support
@@ -82,7 +84,7 @@ if exists("*vundle#rc")
         Plugin 'bling/vim-airline'
         " Airline gotta look good yo
         Plugin 'vim-airline/vim-airline-themes'
-endif
+    endif
 
 
     " --- ABOVE PLUGINS ARE LOCAL ---
@@ -100,6 +102,8 @@ endif
     Plugin 'scrooloose/nerdtree'
     " NERDTree for dudes with tabs
     Plugin 'jistr/vim-nerdtree-tabs'
+    " Toggle location list/quickfix list
+    Plugin 'milkypostman/vim-togglelist'
 
     if needs_vundle == 0
         echo "Installing Plugins..."
@@ -112,16 +116,20 @@ endif
 map             <Leader>a       :Ag<cr>
 " }}}
 " Control-P {{{
-let g:ctrlp_follow_symlinks = 0
 let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>', '<MiddleMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-let g:ctrlp_switch_buffer = 0
+     \ 'AcceptSelection("e")': ['<cr>', '<MiddleMouse>'],
+     \ 'AcceptSelection("t")': ['<c-t>', '<2-LeftMouse>'],
+     \ }
+let g:ctrlp_follow_symlinks = 0
+let g:ctrlp_switch_buffer = 1
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
-let g:ctrlp_lazy_update = 1
+let g:ctrlp_lazy_update = 0
+let g:ctrlp_reuse_window = 1
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_line_prefix = ':: '
+let g:ctrlp_switch_buffer = 'ET'
 " }}}
 " Gundo {{{
 " Toggle gundo
@@ -171,7 +179,7 @@ let g:nerdtree_tabs_open_on_gui_startup = 0
 let g:SuperTabDefaultCompletionType = '<tab>'
 " }}}
 " Syntastic {{{
-let g:syntastic_python_checkers = ['python', 'compile', 'flake8', 'pydocstyle', 'pylint']
+let g:syntastic_python_checkers = ['python', 'compile', 'flake8', 'pydocstyle']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_loc_list_height = 4
@@ -179,7 +187,7 @@ let g:syntastic_loc_list_height = 4
 let g:syntastic_auto_loc_list = 2
 " Jump to the first issue detected, but only if it's an error
 let g:syntastic_auto_jump = 2
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_enable_highlighting = 1
 " Ignore warnings about
@@ -187,8 +195,8 @@ let g:syntastic_enable_highlighting = 1
 "  - D203: blank line ABOVE docstring
 "  - D204: blank line BELOW docstring
 "  - D401: missing module docstring
-let g:syntastic_python_flake8_args = '--ignore=D100,D203,D204,D401 --max-line-length=109'
-let g:syntastic_python_pylint_args = '--disable=missing-docstring,invalid-name,too-many-ancestors'
+"  - E501: line too long
+let g:syntastic_python_flake8_args = '--ignore=D100,D203,D204,D401,E501'
 
 " }}}
 " ultiSnips {{{
@@ -203,7 +211,7 @@ let g:airline_powerline_fonts = 1
 " Use tabline
 let g:airline#extensions#tabline#enabled = 1
 " Set the theme
-let g:airline_theme = 'papercolor'
+let g:airline_theme = 'base16_tomorrow'
 " }}}
 " vim-easytags {{{
 " Re-index tags in the background
@@ -292,10 +300,6 @@ if has('unnamedplus')
 else
   set clipboard=unnamed
 endif
-" No swap files
-set nobackup
-set noswapfile
-set nowritebackup
 " }}}
 " Style {{{
 " Enable syntax highlighting
@@ -331,8 +335,8 @@ set guioptions=a
 set laststatus=2
 " Visual autocomplete for command menu
 set wildmenu
-" Always display the tabline, even if there is only one tab
-set showtabline=2 
+" Show tabline only if there's a tab
+set showtabline=1 
 " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set noshowmode 
 
@@ -374,6 +378,17 @@ function! ToggleNumber()
         set relativenumber
     endif
 endfunc
+
+function BuffersList()
+  let all = range(0, bufnr('$'))
+  let res = []
+  for b in all
+    if buflisted(b)
+      call add(res, bufname(b))
+    endif
+  endfor
+  return res
+endfunction
 " }}}
 " Keyboard {{{
 map             <space>         ¥
@@ -382,7 +397,7 @@ noremap         <C-e>           :NERDTreeTabsToggle<CR>
 " Control+l, Tag bar toggle
 noremap         <C-l>           :TagbarToggle<CR>
 " Control+[, Tag bar toggle
-noremap         <C-_>          :CtrlPTag<CR>
+noremap         <C-_>           :CtrlPTag<CR>
 " Leader+Shift+Tab, Previous tab
 noremap         <Leader><S-Tab> :tabprevious<CR>
 " Leader+Tab, Next tab
@@ -411,25 +426,24 @@ noremap         <Leader>w       :call CycleTextWidth()<CR>
 noremap         <Leader>i       :Isort<CR>
 " Leader+z, Clear all CtrlP caches
 noremap         <Leader>z       :ClearAllCtrlPCaches<CR>
-" Leader+l, Show linter location list
-noremap         <Leader>l       :lopen 3<CR>
-" Leader+L, Hide linter location list
-noremap         <Leader>L       :lclose<CR>
 " Leader+n, Toggle relative numbers
 noremap         <Leader>n       :call ToggleNumber()<CR>
 " Leader+u, Gundo toggle
 noremap         <Leader>u       :GundoToggle<CR>
 " Leader+p, Run all tests
-noremap         <Leader>p       :Pytest project
+noremap         <Leader>p       :CtrlPBuffer<CR>
 " Leader+m, Run test method
 noremap         <Leader>m       :Pytest method<CR>
 " Leader+f, Run test file
 noremap         <Leader>f       :Pytest file<CR>
 " Leader+t, Show test session
-noremap         <leader>t       :Pytest session<CR>
-" Leader+x, Delete buffer
-noremap         <leader>x       :bdelete<CR>
-
+noremap         <Leader>t       :Pytest session<CR>
+" Leader+backspace, Delete buffer
+noremap         <Leader><BS>    :bdelete<CR>
+" Leader+l, Toggle location list
+noremap         <leader>l       :silent call ToggleLocationList()<CR>
+" Leader+q, Toggle quickfix list
+noremap         <leader>q       :silent call ToggleQuickfixList()<CR>
 
 " }}}
 " vim:foldmethod=marker:foldlevel=0
