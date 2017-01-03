@@ -19,7 +19,7 @@ if exists("*vundle#rc")
     " Plugins for vim
     Plugin 'gmarik/vundle'
 
-    if $USER ==# "mverteuil"
+    if $USER ==# "mverteuil" || $USER ==# "matthewdeverteuil"
         " Colours for people who like pretty things
         Plugin 'chriskempson/base16-vim'
         " Visual undo
