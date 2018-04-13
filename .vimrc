@@ -211,7 +211,7 @@ let g:airline_powerline_fonts = 1
 " Use tabline
 let g:airline#extensions#tabline#enabled = 1
 " Set the theme
-let g:airline_theme = 'base16_tomorrow'
+let g:airline_theme = 'base16'
 " }}}
 " vim-easytags {{{
 " Re-index tags in the background
@@ -219,7 +219,7 @@ let g:easytags_async = 1
 " }}}
 " Vim-Indent-Guides {{{
 " Automatically use indent guides
-let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=0
 " Choose own guide colors
 let g:indent_guides_auto_colors=1
 " Guide width is 1 character column
@@ -273,7 +273,7 @@ filetype plugin on
 let mapleader = '¥'
 " }}}
 " Local-only {{{
-if $USER ==# "mverteuil"
+if $USER ==# "mverteuil" || $USER ==# "matthewdeverteuil"
     " Rebuild tags for the virtualenv when writing python files
     autocmd BufWritePost,FileWritePost *.py :silent! ![[ -s $VIRTUAL_ENV ]] && ctags -R -o ~/.tags $VIRTUAL_ENV &
 endif
@@ -308,7 +308,7 @@ syntax on
 set background=dark
 " Use Base16's Tomorrow Theme When Available, otherwise Desert
 colorscheme desert
-silent! colorscheme base16-tomorrow
+silent! colorscheme base16-phd
 " Prefix lines with their number
 set number
 " Show command in bottom bar
@@ -339,6 +339,8 @@ set wildmenu
 set showtabline=1 
 " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set noshowmode 
+" Set true colour terminal
+set termguicolors
 
 " Fonts
 if has("gui_gtk2")
@@ -359,10 +361,10 @@ endif
 function! CycleTextWidth()
     " Set default widths if not defined
     if !exists("g:textwidths")
-        let g:textwidths = [110, 80, ]
+        let g:textwidths = [100, 80, ]
     endif
     " Take the next textwidth off the front of the list
-    let next_textwidth = get(g:textwidths, 0, 110)
+    let next_textwidth = get(g:textwidths, 0, 100)
     let &textwidth = next_textwidth
     " Move the value to the back of the list
     let g:textwidths = g:textwidths[1:] + [next_textwidth]
@@ -379,7 +381,7 @@ function! ToggleNumber()
     endif
 endfunc
 
-function BuffersList()
+function! BuffersList()
   let all = range(0, bufnr('$'))
   let res = []
   for b in all
@@ -445,5 +447,10 @@ noremap         <leader>l       :silent call ToggleLocationList()<CR>
 " Leader+q, Toggle quickfix list
 noremap         <leader>q       :silent call ToggleQuickfixList()<CR>
 
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 " }}}
 " vim:foldmethod=marker:foldlevel=0
+"
