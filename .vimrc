@@ -20,8 +20,6 @@ if exists("*vundle#rc")
     Plugin 'gmarik/vundle'
 
     if $USER ==# "mverteuil" || $USER ==# "matthewdeverteuil"
-        " Colours for people who like pretty things
-        Plugin 'chriskempson/base16-vim'
         " Visual undo
         Plugin 'sjl/gundo.vim'
         " Search for selected text with '*'
@@ -306,9 +304,7 @@ endif
 syntax on
 " Use dark background always
 set background=dark
-" Use Base16's Tomorrow Theme When Available, otherwise Desert
-colorscheme desert
-silent! colorscheme base16-phd
+colorscheme darkblue
 " Prefix lines with their number
 set number
 " Show command in bottom bar
@@ -447,10 +443,6 @@ noremap         <leader>l       :silent call ToggleLocationList()<CR>
 " Leader+q, Toggle quickfix list
 noremap         <leader>q       :silent call ToggleQuickfixList()<CR>
 
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
 " }}}
 " vim:foldmethod=marker:foldlevel=0
 "
